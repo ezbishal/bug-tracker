@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using BugTrackerApi.Models.Projects;
 using BugTrackerAPI.Data;
 
-namespace BugTrackerApi.Features.GetProjectById;
+namespace BugTrackerAPI.Features.GetProjectById;
 
 public static class GetProjectByIdEndpoint
 {
@@ -22,7 +21,7 @@ public static class GetProjectByIdEndpoint
         ApplicationDbContext dbContext, IMapper mapper)
     {
         var project = dbContext.Projects.ToList().FirstOrDefault(p => p.Id == Id);
-        var projectDto = mapper.Map<GetProjectDto>(project);
+        var projectDto = mapper.Map<GetProjectByIdResponse>(project);
         return Results.Ok(projectDto);
     }
 }

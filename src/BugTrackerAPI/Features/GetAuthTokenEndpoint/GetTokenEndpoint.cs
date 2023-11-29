@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace BugTrackerApi.Features.Token;
+namespace BugTrackerAPI.Features.Token;
 
 public static class GetTokenEndpoint
 {

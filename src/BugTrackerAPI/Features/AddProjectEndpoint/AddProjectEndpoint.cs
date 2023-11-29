@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using BugTrackerApi.Features.AddProject;
-using BugTrackerApi.Models.Projects;
 using BugTrackerAPI.Data;
+using BugTrackerAPI.Features.AddProject;
+using BugTrackerAPI.Features.GetProjectById;
+using BugTrackerAPI.Models.Projects;
 
-namespace BugTrackerApi.Features.AddProjectEndpoint
+namespace BugTrackerAPI.Features.AddProjectEndpoint
 {
     public static class AddProjectEndpoint
     {
@@ -27,7 +28,7 @@ namespace BugTrackerApi.Features.AddProjectEndpoint
                 var project = mapper.Map<ProjectModel>(addProjectRequest);
                 dbContext.Projects.Add(project);
                 dbContext.SaveChanges();
-                var projectToSend = mapper.Map<GetProjectDto>(project);
+                var projectToSend = mapper.Map<GetProjectByIdResponse>(project);
                 return Results.CreatedAtRoute(
                     routeName: "GetProjectById",
                     routeValues: new { id = project.Id },

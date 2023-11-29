@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using BugTrackerApi.Models.Projects;
 using BugTrackerAPI.Data;
+using BugTrackerAPI.Features.GetProjectById;
+using BugTrackerAPI.Models.Projects;
 
-namespace BugTrackerApi.Features.UpdateProject;
+namespace BugTrackerAPI.Features.UpdateProject;
 
 public static class UpdateProjectEndpoint
 {
@@ -18,7 +19,7 @@ public static class UpdateProjectEndpoint
     /// <summary>
     /// Update project
     /// </summary>
-    public static async Task<IResult> UpdateProject(UpdateProjectDto updateProjectDto,
+    public static async Task<IResult> UpdateProject(UpdateProjectRequest updateProjectDto,
     ApplicationDbContext dbContext, IMapper mapper)
     {
         try
@@ -28,7 +29,7 @@ public static class UpdateProjectEndpoint
             projectToUpdate.Name = project.Name;
             dbContext.SaveChanges();
 
-            var projectToSend = mapper.Map<GetProjectDto>(project);
+            var projectToSend = mapper.Map<GetProjectByIdResponse>(project);
             return Results.CreatedAtRoute(
                 routeName: "GetProjectById",
                 routeValues: new { project.Id },

@@ -1,4 +1,4 @@
-﻿namespace BugTrackerApi.Features.DeleteProject;
+﻿namespace BugTrackerAPI.Features.DeleteProject;
 
 public class DeleteProjectValidator
 {

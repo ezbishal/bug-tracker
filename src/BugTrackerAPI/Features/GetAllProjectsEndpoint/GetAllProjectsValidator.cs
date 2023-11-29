@@ -1,4 +1,4 @@
-﻿namespace BugTrackerApi.Features.GetAllProjects;
+﻿namespace BugTrackerAPI.Features.GetAllProjects;
 
 public class GetAllProjectsValidator
 {

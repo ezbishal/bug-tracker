@@ -1,6 +1,6 @@
-﻿using BugTrackerApi.Models.Projects;
+﻿using BugTrackerAPI.Models.Projects;
 
-namespace BugTrackerApi.Features.AddProject;
+namespace BugTrackerAPI.Features.AddProject;
 
 public class AddProjectRequest : ProjectDtoBase
 {

@@ -1,6 +1,6 @@
-﻿using BugTrackerApi.Features.GetProjectById;
+﻿using BugTrackerAPI.Features.GetProjectById;
 
-namespace BugTrackerApi.Features.AddProject;
+namespace BugTrackerAPI.Features.AddProject;
 
 public class AddProjectResponse : GetProjectByIdResponse
 {

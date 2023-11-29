@@ -1,10 +1,10 @@
-using BugTrackerApi.Features.AddProjectEndpoint;
-using BugTrackerApi.Features.DeleteProject;
-using BugTrackerApi.Features.GetAllProjects;
-using BugTrackerApi.Features.GetProjectById;
-using BugTrackerApi.Features.Token;
-using BugTrackerApi.Features.UpdateProject;
 using BugTrackerAPI;
+using BugTrackerAPI.Features.AddProjectEndpoint;
+using BugTrackerAPI.Features.DeleteProject;
+using BugTrackerAPI.Features.GetAllProjects;
+using BugTrackerAPI.Features.GetProjectById;
+using BugTrackerAPI.Features.Token;
+using BugTrackerAPI.Features.UpdateProject;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureServices();

@@ -1,6 +1,6 @@
-using BugTrackerApi.Models.Bugs;
-using BugTrackerApi.Models.Comments;
-using BugTrackerApi.Models.Projects;
+using BugTrackerAPI.Models.Bugs;
+using BugTrackerAPI.Models.Comments;
+using BugTrackerAPI.Models.Projects;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerAPI.Data;

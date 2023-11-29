@@ -1,6 +1,6 @@
-﻿using BugTrackerApi.Models.Bugs;
+﻿using BugTrackerAPI.Models.Bugs;
 
-namespace BugTrackerApi.Models.Comments;
+namespace BugTrackerAPI.Models.Comments;
 
 public class CommentModel
 {

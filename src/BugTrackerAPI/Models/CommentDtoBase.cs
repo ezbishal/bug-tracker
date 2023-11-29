@@ -1,4 +1,4 @@
-namespace BugTrackerApi.Models.Comments;
+namespace BugTrackerAPI.Models.Comments;
 
 public class CommentDtoBase
 {
