@@ -5,9 +5,7 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{152C2914-2868-495E-810E-204DB5CE8EE1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{843CBAE2-151E-4D39-B57F-A0C27CDFB88B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTrackerAPI", "src\BugTrackerAPI\BugTrackerAPI.csproj", "{2D30FBAE-A904-42F9-A64E-D0A252DB4458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BugTrackerAPI", "src\BugTrackerAPI\BugTrackerAPI.csproj", "{2D30FBAE-A904-42F9-A64E-D0A252DB4458}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
