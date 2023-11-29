@@ -1,6 +1,6 @@
-using BugTrackerAPI.Models.Bugs;
+using BugTrackerApi.Models.Bugs;
 
-namespace BugTrackerAPI.Models.Projects;
+namespace BugTrackerApi.Models.Projects;
 
 public class ProjectModel
 {

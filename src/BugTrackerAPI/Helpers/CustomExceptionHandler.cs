@@ -1,8 +1,8 @@
-﻿using BugTrackerAPI.Exceptions;
+﻿using BugTrackerApi.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BugTrackerAPI.Helpers;
+namespace BugTrackerApi.Helpers;
 
 public class CustomExceptionHandler : IExceptionHandler
 {

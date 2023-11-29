@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace BugTrackerAPI.Helpers;
+namespace BugTrackerApi.Helpers;
 
 public static class GuardAgainst
 {

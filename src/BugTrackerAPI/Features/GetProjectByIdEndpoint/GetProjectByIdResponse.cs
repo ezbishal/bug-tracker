@@ -1,4 +1,4 @@
-﻿namespace BugTrackerAPI.Features.GetProjectById;
+﻿namespace BugTrackerApi.Features.GetProjectById;
 
 public class GetProjectByIdResponse
 {

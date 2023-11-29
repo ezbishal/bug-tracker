@@ -1,4 +1,4 @@
-﻿namespace BugTrackerAPI.Features.GetAuthToken;
+﻿namespace BugTrackerApi.Features.GetAuthToken;
 
 public class GetAuthTokenResponse
 {

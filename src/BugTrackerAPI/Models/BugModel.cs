@@ -1,7 +1,7 @@
-﻿using BugTrackerAPI.Models.Comments;
-using BugTrackerAPI.Models.Projects;
+﻿using BugTrackerApi.Models.Comments;
+using BugTrackerApi.Models.Projects;
 
-namespace BugTrackerAPI.Models.Bugs;
+namespace BugTrackerApi.Models.Bugs;
 
 public class BugModel
 {

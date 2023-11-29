@@ -1,6 +1,6 @@
-﻿using BugTrackerAPI.Helpers;
+﻿using BugTrackerApi.Helpers;
 
-namespace BugTrackerAPI.Exceptions;
+namespace BugTrackerApi.Exceptions;
 
 public class DomainException : Exception
 {

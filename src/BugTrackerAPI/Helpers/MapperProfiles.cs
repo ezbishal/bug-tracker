@@ -1,10 +1,10 @@
 using AutoMapper;
-using BugTrackerAPI.Features.AddProject;
-using BugTrackerAPI.Features.GetProjectById;
-using BugTrackerAPI.Features.UpdateProject;
-using BugTrackerAPI.Models.Projects;
+using BugTrackerApi.Features.AddProject;
+using BugTrackerApi.Features.GetProjectById;
+using BugTrackerApi.Features.UpdateProject;
+using BugTrackerApi.Models.Projects;
 
-namespace BugTrackerAPI.Helpers;
+namespace BugTrackerApi.Helpers;
 
 public class MapperProfiles : Profile
 {

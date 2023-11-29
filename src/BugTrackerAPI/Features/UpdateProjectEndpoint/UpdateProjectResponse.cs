@@ -1,4 +1,4 @@
-﻿namespace BugTrackerAPI.Features.UpdateProject;
+﻿namespace BugTrackerApi.Features.UpdateProject;
 
 public class UpdateProjectResponse
 {

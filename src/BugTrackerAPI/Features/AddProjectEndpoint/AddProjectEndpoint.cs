@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using BugTrackerAPI.Data;
-using BugTrackerAPI.Features.AddProject;
-using BugTrackerAPI.Features.GetProjectById;
-using BugTrackerAPI.Models.Projects;
+using BugTrackerApi.Data;
+using BugTrackerApi.Features.AddProject;
+using BugTrackerApi.Features.GetProjectById;
+using BugTrackerApi.Models.Projects;
 
-namespace BugTrackerAPI.Features.AddProjectEndpoint
+namespace BugTrackerApi.Features.AddProjectEndpoint
 {
     public static class AddProjectEndpoint
     {

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace BugTrackerAPI.Features.AddProject;
+namespace BugTrackerApi.Features.AddProject;
 public class AddProjectValidator : AbstractValidator<AddProjectRequest>
 {
     public AddProjectValidator()

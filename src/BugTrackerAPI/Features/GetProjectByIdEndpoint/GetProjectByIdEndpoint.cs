@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using BugTrackerAPI.Data;
+using BugTrackerApi.Data;
 
-namespace BugTrackerAPI.Features.GetProjectById;
+namespace BugTrackerApi.Features.GetProjectById;
 
 public static class GetProjectByIdEndpoint
 {

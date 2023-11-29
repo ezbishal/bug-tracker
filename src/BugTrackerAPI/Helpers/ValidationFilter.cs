@@ -1,9 +1,9 @@
-﻿using BugTrackerAPI.Exceptions;
-using BugTrackerAPI.Helpers;
+﻿using BugTrackerApi.Exceptions;
+using BugTrackerApi.Helpers;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace BugTrackerAPI.ValidationFilter;
+namespace BugTrackerApi.ValidationFilter;
 
 public class ValidationFilter<T> : IEndpointFilter
 {

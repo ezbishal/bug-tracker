@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BugTrackerAPI.Data;
-using BugTrackerAPI.Features.GetProjectById;
-using BugTrackerAPI.ValidationFilter;
+using BugTrackerApi.Data;
+using BugTrackerApi.Features.GetProjectById;
+using BugTrackerApi.ValidationFilter;
 
-namespace BugTrackerAPI.Features.GetAllProjects
+namespace BugTrackerApi.Features.GetAllProjects
 {
     public static class GetAllProjectsEndpoint
     {

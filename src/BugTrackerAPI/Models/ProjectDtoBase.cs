@@ -1,4 +1,4 @@
-namespace BugTrackerAPI.Models.Projects;
+namespace BugTrackerApi.Models.Projects;
 
 public class ProjectDtoBase
 {

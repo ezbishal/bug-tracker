@@ -1,6 +1,6 @@
-﻿using BugTrackerAPI.Data;
+﻿using BugTrackerApi.Data;
 
-namespace BugTrackerAPI.Features.DeleteProject
+namespace BugTrackerApi.Features.DeleteProject
 {
     public static class DeleteProjectEndpoint
     {

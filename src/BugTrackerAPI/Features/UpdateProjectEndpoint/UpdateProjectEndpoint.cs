@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BugTrackerAPI.Data;
-using BugTrackerAPI.Features.GetProjectById;
-using BugTrackerAPI.Models.Projects;
+using BugTrackerApi.Data;
+using BugTrackerApi.Features.GetProjectById;
+using BugTrackerApi.Models.Projects;
 
-namespace BugTrackerAPI.Features.UpdateProject;
+namespace BugTrackerApi.Features.UpdateProject;
 
 public static class UpdateProjectEndpoint
 {

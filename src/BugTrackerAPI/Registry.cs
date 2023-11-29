@@ -1,11 +1,11 @@
-﻿using BugTrackerAPI.Data;
-using BugTrackerAPI.Helpers;
+﻿using BugTrackerApi.Data;
+using BugTrackerApi.Helpers;
 using FluentValidation;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-namespace BugTrackerAPI;
+namespace BugTrackerApi;
 
 public static class Registry
 {

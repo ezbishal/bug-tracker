@@ -1,4 +1,4 @@
-﻿namespace BugTrackerAPI.Helpers;
+﻿namespace BugTrackerApi.Helpers;
 
 public class ErrorDetailsCollection
 {
