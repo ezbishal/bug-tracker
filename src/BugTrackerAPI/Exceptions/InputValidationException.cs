@@ -1,6 +1,4 @@
-﻿using BugTrackerApi.Helpers;
-
-namespace BugTrackerApi.Exceptions;
+﻿namespace BugTrackerApi.Exceptions;
 
 public class InputValidationException : Exception
 {

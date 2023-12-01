@@ -1,7 +1,7 @@
 using AutoMapper;
-using BugTrackerApi.Features.AddProject;
-using BugTrackerApi.Features.GetProjectById;
-using BugTrackerApi.Features.UpdateProject;
+using BugTrackerApi.Features.Projects.AddProjectEndpoint;
+using BugTrackerApi.Features.Projects.GetProjectByIdEndpoint;
+using BugTrackerApi.Features.Projects.UpdateProjectEndpoint;
 using BugTrackerApi.Models.Projects;
 
 namespace BugTrackerApi.Helpers;

@@ -1,10 +1,11 @@
 using BugTrackerApi;
-using BugTrackerApi.Features.AddProjectEndpoint;
-using BugTrackerApi.Features.DeleteProject;
-using BugTrackerApi.Features.GetAllProjects;
-using BugTrackerApi.Features.GetProjectById;
-using BugTrackerApi.Features.Token;
-using BugTrackerApi.Features.UpdateProject;
+using BugTrackerApi.Authentication.GetAuthTokenEndpoint;
+using BugTrackerApi.Authentication.RegisterUserEndpoint;
+using BugTrackerApi.Features.Projects.AddProjectEndpoint;
+using BugTrackerApi.Features.Projects.DeleteProjectEndpoint;
+using BugTrackerApi.Features.Projects.GetAllProjectsEndpoint;
+using BugTrackerApi.Features.Projects.GetProjectByIdEndpoint;
+using BugTrackerApi.Features.Projects.UpdateProjectEndpoint;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureServices();
@@ -16,7 +17,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rhenus External API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bug Tracker API");
     });
 }
 
@@ -26,12 +27,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors();
 
-//Token
-app.MapGroup("/api/token").WithTags("Token")
+//Authentication
+app.MapGroup("/user").WithTags("Authentication")
+    .MapRegisterUserEndpoint()
     .MapGetTokenEndpoint();
 
 // Projects
-app.MapGroup("/api/projects").WithTags("Projects")
+app.MapGroup("/projects").WithTags("Projects")
     .MapGetAllProjectsEndpoint()
     .MapGetProjectByIdEndpoint()
     .MapAddProjectEndpoint()

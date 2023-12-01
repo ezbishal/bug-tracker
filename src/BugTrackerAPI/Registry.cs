@@ -1,6 +1,10 @@
-﻿using BugTrackerApi.Data;
+﻿using BugTrackerApi.Authentication;
+using BugTrackerApi.Data;
+using BugTrackerApi.Exceptions;
 using BugTrackerApi.Helpers;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -49,22 +53,32 @@ public static class Registry
 
         services.AddAuthentication(options =>
         {
-            options.DefaultAuthenticateScheme = "JwtBearer";
-            options.DefaultChallengeScheme = "JwtBearer";
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-            .AddJwtBearer("JwtBearer", JwtBearerOptions =>
+            .AddJwtBearer(options =>
             {
-                JwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt")),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(5)
                 };
 
             });
+
+        services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+        {
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireDigit = false;
+            options.Password.RequireUppercase = false;
+        })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
         services.AddAuthorization();
 
         services.AddExceptionHandler<CustomExceptionHandler>();
