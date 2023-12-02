@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BugTrackerApi.Data;
 using BugTrackerApi.Features.Projects.GetProjectByIdEndpoint;
-using BugTrackerApi.ValidationFilter;
 
 namespace BugTrackerApi.Features.Projects.GetAllProjectsEndpoint
 {
@@ -11,8 +10,7 @@ namespace BugTrackerApi.Features.Projects.GetAllProjectsEndpoint
         {
             builder.MapGet("", GetAllProjects)
                 .WithName(nameof(GetAllProjects))
-                .WithOpenApi()
-                .AddEndpointFilter<ValidationFilter<GetAllProjectsRequest>>(); ;
+                .WithOpenApi();
 
             return builder;
         }

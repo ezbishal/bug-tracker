@@ -5,6 +5,7 @@ using BugTrackerApi.Helpers;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -13,12 +14,12 @@ namespace BugTrackerApi;
 
 public static class Registry
 {
-    public static IServiceCollection ConfigureServices(this IServiceCollection services)
+    public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
-        services.AddCors();
-        services.AddEndpointsApiExplorer();
+        builder.Services.AddCors();
+        builder.Services.AddEndpointsApiExplorer();
 
-        services.AddSwaggerGen(c =>
+        builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Rhenus External API", Version = "v1" });
 
@@ -51,7 +52,7 @@ public static class Registry
         });
         });
 
-        services.AddAuthentication(options =>
+        builder.Services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,7 +71,7 @@ public static class Registry
 
             });
 
-        services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireDigit = false;
@@ -79,19 +80,22 @@ public static class Registry
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-        services.AddAuthorization();
+        builder.Services.AddAuthorization();
 
-        services.AddExceptionHandler<CustomExceptionHandler>();
-        services.AddValidatorsFromAssemblyContaining(typeof(Program));
+        builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+        builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 
-        services.AddCors();
+        builder.Services.AddCors();
+        var value = builder.Configuration["BugTrackerDBConnectionString"];
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlite(builder.Configuration["BugTrackerDBConnectionString"]);
+        });
 
-        services.AddDbContext<ApplicationDbContext>();
+        builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-        services.AddDatabaseDeveloperPageExceptionFilter();
+        builder.Services.AddAutoMapper(typeof(MapperProfiles));
 
-        services.AddAutoMapper(typeof(MapperProfiles));
-
-        return services;
+        return builder;
     }
 }

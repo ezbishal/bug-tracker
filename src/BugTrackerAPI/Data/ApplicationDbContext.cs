@@ -9,17 +9,15 @@ namespace BugTrackerApi.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
+    public ApplicationDbContext(DbContextOptions options)
+        : base(options)
+    {
+
+    }
     public DbSet<ProjectModel> Projects { get; set; }
     public DbSet<BugModel> Bugs { get; set; }
     public DbSet<CommentModel> Comments { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlite("Data Source=app.db");
-        }
-    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ProjectModel>().ToTable("course");

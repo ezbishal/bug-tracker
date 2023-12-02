@@ -1,6 +1,6 @@
 @BugTrackerApi_HostAddress = http://localhost:5222
 
-GET {{BugTrackerApi_HostAddress}}/api/projects/
+GET {{BugTrackerApi_HostAddress}}/projects/
 Accept: application/json
 
 ###

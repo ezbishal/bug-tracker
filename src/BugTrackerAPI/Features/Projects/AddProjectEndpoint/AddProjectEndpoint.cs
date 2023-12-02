@@ -19,7 +19,7 @@ namespace BugTrackerApi.Features.Projects.AddProjectEndpoint
         }
 
         /// <summary>
-        /// Create new project
+        /// Create a new project
         /// </summary>
         public static async Task<IResult> AddProject(AddProjectRequest addProjectRequest,
              ApplicationDbContext dbContext, IMapper mapper)
