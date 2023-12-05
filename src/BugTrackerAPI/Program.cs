@@ -12,19 +12,6 @@ using BugTrackerApi.Features.Projects.UpdateProjectEndpoint;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureServices();
-
-var config = builder.Configuration;
-
-string? kvUrl = config["KeyVaultConfig:KvUrl"];
-string? tenantId = config["KeyVaultConfig:TenantId"];
-string? clientId = config["KeyVaultConfig:ClientId"];
-string? clientSecret = config["KeyVaultConfig:ClientSecretId"];
-
-var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-
-var client = new SecretClient(new Uri(kvUrl), credential);
-config.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

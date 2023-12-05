@@ -11,7 +11,7 @@ public class MapperProfiles : Profile
     public MapperProfiles()
     {
         CreateMap<ProjectModel, GetProjectByIdResponse>().ReverseMap();
-        CreateMap<ProjectModel, AddProjectRequest>().ReverseMap();
-        CreateMap<ProjectModel, UpdateProjectRequest>().ReverseMap();
+        CreateMap<ProjectModel, AddProjectResponse>().ReverseMap();
+        CreateMap<ProjectModel, UpdateProjectResponse>().ReverseMap();
     }
 }
