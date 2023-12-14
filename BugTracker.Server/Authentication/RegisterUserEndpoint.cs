@@ -1,8 +1,8 @@
-﻿using BugTracker.Server.Authentication;
-using BugTracker.Server.Helpers;
+﻿using BugTracker.Server.Helpers;
+using BugTracker.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace BugTracker.Server.Authentication.RegisterUserEndpoint;
+namespace BugTracker.Server.Authentication;
 
 public static class RegisterUserEndpoint
 {
@@ -11,12 +11,12 @@ public static class RegisterUserEndpoint
         builder.MapPost("/register", RegisterUser)
             .WithName(nameof(RegisterUser))
             .WithOpenApi()
-            .AddEndpointFilter<ValidationFilter<RegisterUserRequest>>();
+            .AddEndpointFilter<ValidationFilter<RegisterUserModel>>();
 
         return builder;
     }
 
-    private static async Task<IResult> RegisterUser(RegisterUserRequest request, HttpContext context, UserManager<ApplicationUser> userManager)
+    private static async Task<IResult> RegisterUser(RegisterUserModel request, HttpContext context, UserManager<ApplicationUser> userManager)
     {
         var user = new ApplicationUser { FirstName = request.FirstName, LastName = request.LastName, UserName = request.Username };
         var result = await userManager.CreateAsync(user, request.Password);

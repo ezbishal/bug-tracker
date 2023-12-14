@@ -1,11 +1,12 @@
-﻿using BugTracker.Server.Authentication;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace BugTracker.Server.Authentication.GetAuthTokenEndpoint;
+namespace BugTracker.Server.Authentication;
 
 public static class GetAuthTokenEndpoint
 {
@@ -22,13 +23,14 @@ public static class GetAuthTokenEndpoint
     /// Get authentication token
     /// </summary>
     private static async Task<IResult> GetToken(
-        GetAuthTokenRequest request,
+        [FromQuery(Name = "username")] string username,
+        [FromQuery(Name = "password"), DataType(DataType.Password)] string password,
         UserManager<ApplicationUser> userManager,
         CancellationToken cancellationToken)
     {
 
-        var user = await userManager.FindByNameAsync(request.Username);
-        if (user is not null && await userManager.CheckPasswordAsync(user, request.Password))
+        var user = await userManager.FindByNameAsync(username);
+        if (user is not null && await userManager.CheckPasswordAsync(user, password))
         {
             var token = GenerateJwtToken(user);
             return Results.Ok(token);

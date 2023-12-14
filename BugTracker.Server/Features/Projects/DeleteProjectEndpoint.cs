@@ -1,7 +1,6 @@
 ﻿using BugTracker.Server.Data;
-using BugTracker.Server.Helpers;
 
-namespace BugTracker.Server.Features.Projects.DeleteProjectEndpoint
+namespace BugTracker.Server.Features.Projects
 {
     public static class DeleteProjectEndpoint
     {
@@ -9,8 +8,7 @@ namespace BugTracker.Server.Features.Projects.DeleteProjectEndpoint
         {
             builder.MapDelete("/{Id}", DeleteProject)
                 .WithName(nameof(DeleteProject))
-                .WithOpenApi()
-                .AddEndpointFilter<ValidationFilter<DeleteProjectRequest>>();
+                .WithOpenApi();
 
             return builder;
         }

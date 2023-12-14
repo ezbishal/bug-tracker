@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using BugTracker.Server.Data;
-using BugTracker.Server.Helpers;
+using BugTracker.Shared.Models;
 
-namespace BugTracker.Server.Features.Projects.GetProjectByIdEndpoint;
+namespace BugTracker.Server.Features.Projects;
 
 public static class GetProjectByIdEndpoint
 {
@@ -10,8 +10,7 @@ public static class GetProjectByIdEndpoint
     {
         builder.MapGet("/{Id}", GetProjectById)
             .WithName(nameof(GetProjectById))
-            .WithOpenApi()
-            .AddEndpointFilter<ValidationFilter<GetProjectByIdRequest>>();
+            .WithOpenApi();
 
         return builder;
     }
@@ -23,7 +22,7 @@ public static class GetProjectByIdEndpoint
         ApplicationDbContext dbContext, IMapper mapper)
     {
         var project = dbContext.Projects.ToList().FirstOrDefault(p => p.Id == Id);
-        var projectDto = mapper.Map<GetProjectByIdResponse>(project);
+        var projectDto = mapper.Map<GetProjectModel>(project);
         return Results.Ok(projectDto);
     }
 }

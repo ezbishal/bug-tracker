@@ -1,10 +1,5 @@
-using BugTracker.Server.Authentication.GetAuthTokenEndpoint;
-using BugTracker.Server.Authentication.RegisterUserEndpoint;
-using BugTracker.Server.Features.Projects.AddProjectEndpoint;
-using BugTracker.Server.Features.Projects.DeleteProjectEndpoint;
-using BugTracker.Server.Features.Projects.GetAllProjectsEndpoint;
-using BugTracker.Server.Features.Projects.GetProjectByIdEndpoint;
-using BugTracker.Server.Features.Projects.UpdateProjectEndpoint;
+using BugTracker.Server.Authentication;
+using BugTracker.Server.Features.Projects;
 
 public static class Endpoints
 {

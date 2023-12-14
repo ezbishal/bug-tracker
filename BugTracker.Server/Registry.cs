@@ -1,4 +1,5 @@
 ﻿using Azure.Identity;
+using BugTracker.Client;
 using BugTracker.Server.Authentication;
 using BugTracker.Server.Data;
 using BugTracker.Server.Exceptions;
@@ -21,7 +22,10 @@ public static class Registry
         builder.ConfigureKeyVault();
         builder.ConfigureIdentity();
         builder.ConfigureAuthentication();
-        builder.Services.ConfigureBlazor();
+        builder.ConfigureBlazor();
+        builder.Services.ConfigureSharedServices();
+
+        builder.Services.AddProblemDetails();
 
         var value = builder.Configuration["BugTrackerDBConnectionString"];
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -126,6 +130,15 @@ public static class Registry
         })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder ConfigureBlazor(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddRazorComponents()
+            .AddInteractiveServerComponents()
+            .AddInteractiveWebAssemblyComponents();
 
         return builder;
     }

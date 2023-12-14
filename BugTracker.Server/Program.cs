@@ -1,5 +1,4 @@
 using BugTracker.Client.Components;
-using BugTracker.Client.Pages;
 using BugTracker.Server;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,10 +27,9 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Counter).Assembly);
+    .AddInteractiveWebAssemblyRenderMode();
 
-app.UseExceptionHandler(_ => { });
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

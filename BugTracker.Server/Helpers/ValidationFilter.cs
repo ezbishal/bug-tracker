@@ -1,5 +1,4 @@
 ﻿using BugTracker.Server.Exceptions;
-using BugTrackerApi.Exceptions;
 using FluentValidation;
 using FluentValidation.Results;
 

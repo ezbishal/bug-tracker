@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using BugTracker.Server.Data;
-using BugTracker.Server.Features.Projects.GetProjectByIdEndpoint;
 using BugTracker.Server.Helpers;
 using BugTracker.Server.Models;
+using BugTracker.Shared.Models;
 
-namespace BugTracker.Server.Features.Projects.UpdateProjectEndpoint;
+namespace BugTracker.Server.Features.Projects;
 
 public static class UpdateProjectEndpoint
 {
@@ -13,7 +13,7 @@ public static class UpdateProjectEndpoint
         builder.MapPut("/{Id}", UpdateProject)
             .WithName(nameof(UpdateProject))
             .WithOpenApi()
-            .AddEndpointFilter<ValidationFilter<UpdateProjectRequest>>();
+            .AddEndpointFilter<ValidationFilter<UpdateProjectModel>>();
 
         return builder;
     }
@@ -21,7 +21,7 @@ public static class UpdateProjectEndpoint
     /// <summary>
     /// Update project
     /// </summary>
-    public static async Task<IResult> UpdateProject(UpdateProjectRequest updateProjectDto,
+    public static async Task<IResult> UpdateProject(UpdateProjectModel updateProjectDto,
     ApplicationDbContext dbContext, IMapper mapper)
     {
         try
@@ -31,7 +31,7 @@ public static class UpdateProjectEndpoint
             projectToUpdate.Name = project.Name;
             dbContext.SaveChanges();
 
-            var projectToSend = mapper.Map<GetProjectByIdResponse>(project);
+            var projectToSend = mapper.Map<GetProjectModel>(project);
             return Results.CreatedAtRoute(
                 routeName: "GetProjectById",
                 routeValues: new { project.Id },
