@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace BugTracker.Server.Features.Projects.Validators;
 
-public class AddProjectValidator : AbstractValidator<AddProjectModel>
+public class CreateProjectValidator : AbstractValidator<ProjectModel>
 {
-    public AddProjectValidator()
+    public CreateProjectValidator()
     {
         RuleFor(p => p.Name)
             .NotNull()

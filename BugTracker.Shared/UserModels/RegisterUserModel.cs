@@ -1,4 +1,4 @@
-﻿namespace BugTracker.Shared.Models;
+﻿namespace BugTracker.Shared.UserModels;
 public class RegisterUserModel
 {
     public string FirstName { get; set; }
@@ -6,4 +6,5 @@ public class RegisterUserModel
 
     public string Username { get; set; }
     public string Password { get; set; }
+
 }

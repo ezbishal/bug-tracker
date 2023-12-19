@@ -1,19 +1,18 @@
 ﻿using AutoMapper;
 using BugTracker.Server.Data;
 using BugTracker.Server.Helpers;
-using BugTracker.Server.Models;
 using BugTracker.Shared.Models;
 
 namespace BugTracker.Server.Features.Projects
 {
-    public static class AddProjectEndpoint
+    public static class CreateProjectEndpoint
     {
-        public static RouteGroupBuilder MapAddProjectEndpoint(this RouteGroupBuilder builder)
+        public static RouteGroupBuilder MapCreateProjectEndpoint(this RouteGroupBuilder builder)
         {
-            builder.MapPost("", AddProject)
-                .WithName(nameof(AddProject))
+            builder.MapPost("", CreateProject)
+                .WithName(nameof(CreateProject))
                 .WithOpenApi()
-                .AddEndpointFilter<ValidationFilter<AddProjectModel>>();
+                .AddEndpointFilter<ValidationFilter<ProjectModel>>();
 
             return builder;
         }
@@ -21,20 +20,20 @@ namespace BugTracker.Server.Features.Projects
         /// <summary>
         /// Create a new project
         /// </summary>
-        public static async Task<IResult> AddProject(AddProjectModel addProjectRequest,
+        public static async Task<IResult> CreateProject(ProjectModel createProjectModel,
              ApplicationDbContext dbContext, IMapper mapper)
         {
             try
             {
-                var project = mapper.Map<ProjectModel>(addProjectRequest);
-                dbContext.Projects.Add(project);
+                var projectModel = mapper.Map<ProjectModel>(createProjectModel);
+                dbContext.Projects.Add(projectModel);
                 dbContext.SaveChanges();
-                var projectToSend = mapper.Map<GetProjectModel>(project);
+                var getProjectModel = new GetProjectModel().Map(projectModel);
 
                 return Results.CreatedAtRoute(
                     routeName: "GetProjectById",
-                    routeValues: new { id = project.Id },
-                    value: projectToSend
+                    routeValues: new { id = projectModel.Id },
+                    value: getProjectModel
                 );
 
 

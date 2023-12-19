@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BugTracker.Server.Data;
 using BugTracker.Server.Helpers;
-using BugTracker.Server.Models;
 using BugTracker.Shared.Models;
 
 namespace BugTracker.Server.Features.Projects;
@@ -13,7 +12,7 @@ public static class UpdateProjectEndpoint
         builder.MapPut("/{Id}", UpdateProject)
             .WithName(nameof(UpdateProject))
             .WithOpenApi()
-            .AddEndpointFilter<ValidationFilter<UpdateProjectModel>>();
+            .AddEndpointFilter<ValidationFilter<ProjectModel>>();
 
         return builder;
     }
@@ -21,21 +20,24 @@ public static class UpdateProjectEndpoint
     /// <summary>
     /// Update project
     /// </summary>
-    public static async Task<IResult> UpdateProject(UpdateProjectModel updateProjectDto,
+    public static async Task<IResult> UpdateProject(ProjectModel updateProjectModel,
     ApplicationDbContext dbContext, IMapper mapper)
     {
         try
         {
-            var project = mapper.Map<ProjectModel>(updateProjectDto);
-            var projectToUpdate = dbContext.Projects.FirstOrDefault(p => p.Id == project.Id);
-            projectToUpdate.Name = project.Name;
+            var projectModel = mapper.Map<ProjectModel>(updateProjectModel);
+            var projectModelToUpdate = dbContext.Projects.FirstOrDefault(p => p.Id == projectModel.Id);
+
+            projectModelToUpdate.Name = projectModel.Name;
+
             dbContext.SaveChanges();
 
-            var projectToSend = mapper.Map<GetProjectModel>(project);
+            var getProjectModel = new GetProjectModel().Map(projectModelToUpdate);
+
             return Results.CreatedAtRoute(
                 routeName: "GetProjectById",
-                routeValues: new { project.Id },
-                value: projectToSend
+                routeValues: new { projectModelToUpdate.Id },
+                value: getProjectModel
             );
         }
         catch (Exception ex)

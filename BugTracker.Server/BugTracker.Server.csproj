@@ -24,12 +24,21 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0" />
 	  <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.2.0" />
+	  <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8.0" />
+	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
+
+
 
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BugTracker.Client\BugTracker.Client.csproj" />
     <ProjectReference Include="..\BugTracker.Shared\BugTracker.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Bugs\" />
+    <Folder Include="Features\Comments\" />
   </ItemGroup>
 
 </Project>

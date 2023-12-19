@@ -13,7 +13,7 @@ public static class Endpoints
 		app.MapGroup("/api/projects").WithTags("Projects")
 			.MapGetAllProjectsEndpoint()
 			.MapGetProjectByIdEndpoint()
-			.MapAddProjectEndpoint()
+			.MapCreateProjectEndpoint()
 			.MapUpdateProjectEndpoint()
 			.MapDeleteProjectEndpoint();
 

@@ -1,4 +1,4 @@
-﻿using BugTracker.Shared.Models;
+﻿using BugTracker.Shared.UserModels;
 using FluentValidation;
 
 namespace BugTracker.Server.Authentication;

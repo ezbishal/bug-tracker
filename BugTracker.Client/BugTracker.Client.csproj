@@ -20,4 +20,8 @@
 	<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BugTracker.Shared\BugTracker.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

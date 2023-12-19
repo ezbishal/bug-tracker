@@ -21,8 +21,8 @@ public static class GetProjectByIdEndpoint
     public static async Task<IResult> GetProjectById(int Id,
         ApplicationDbContext dbContext, IMapper mapper)
     {
-        var project = dbContext.Projects.ToList().FirstOrDefault(p => p.Id == Id);
-        var projectDto = mapper.Map<GetProjectModel>(project);
-        return Results.Ok(projectDto);
+        var projectModel = dbContext.Projects.ToList().FirstOrDefault(p => p.Id == Id);
+        var getProjectModel = new GetProjectModel().Map(projectModel);
+        return Results.Ok(getProjectModel);
     }
 }

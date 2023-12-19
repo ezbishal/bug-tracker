@@ -1,5 +1,5 @@
 ﻿using BugTracker.Server.Helpers;
-using BugTracker.Shared.Models;
+using BugTracker.Shared.UserModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace BugTracker.Server.Authentication;

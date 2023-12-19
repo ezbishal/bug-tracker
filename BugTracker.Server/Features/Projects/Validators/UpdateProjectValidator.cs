@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace BugTracker.Server.Features.Projects.Validators;
 
-public class UpdateProjectValidator : AbstractValidator<UpdateProjectModel>
+public class UpdateProjectValidator : AbstractValidator<ProjectModel>
 {
     public UpdateProjectValidator()
     {

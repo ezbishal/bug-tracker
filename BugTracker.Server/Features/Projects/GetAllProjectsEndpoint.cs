@@ -21,9 +21,14 @@ namespace BugTracker.Server.Features.Projects
         public static async Task<IResult> GetAllProjects(
             ApplicationDbContext dbContext, IMapper mapper)
         {
-            var projects = dbContext.Projects.ToList();
-            var projectDto = mapper.Map<List<GetProjectModel>>(projects);
-            return Results.Ok(projectDto);
+            var projectsModels = dbContext.Projects.ToList();
+            var getProjectModels = new List<GetProjectModel>();
+            foreach (var project in projectsModels)
+            {
+                getProjectModels.Add(new GetProjectModel().Map(project));
+            }
+
+            return Results.Ok(getProjectModels);
         }
     }
 }
