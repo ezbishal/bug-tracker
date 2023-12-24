@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace BugTrackerApi.Migrations
+namespace BugTracker.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Newmigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,6 +50,25 @@ namespace BugTrackerApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "bug",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    RepositoryLink = table.Column<string>(type: "TEXT", nullable: false),
+                    BugCount = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_bug", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,6 +177,90 @@ namespace BugTrackerApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserModel",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ProjectModelId = table.Column<int>(type: "INTEGER", nullable: true),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    Username = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserModel_bug_ProjectModelId",
+                        column: x => x.ProjectModelId,
+                        principalTable: "bug",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "comment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    BugId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Text = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_comment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_comment_UserModel_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "UserModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "project",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    ReportedById = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AssignedToId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Severity = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateReported = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DateResolved = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ReproductionSteps = table.Column<string>(type: "TEXT", nullable: false),
+                    Attachments = table.Column<string>(type: "TEXT", nullable: false),
+                    ProjectModelId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_project", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_project_UserModel_AssignedToId",
+                        column: x => x.AssignedToId,
+                        principalTable: "UserModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_project_UserModel_ReportedById",
+                        column: x => x.ReportedById,
+                        principalTable: "UserModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_project_bug_ProjectModelId",
+                        column: x => x.ProjectModelId,
+                        principalTable: "bug",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +297,31 @@ namespace BugTrackerApi.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserModel_ProjectModelId",
+                table: "UserModel",
+                column: "ProjectModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_comment_AuthorId",
+                table: "comment",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_project_AssignedToId",
+                table: "project",
+                column: "AssignedToId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_project_ProjectModelId",
+                table: "project",
+                column: "ProjectModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_project_ReportedById",
+                table: "project",
+                column: "ReportedById");
         }
 
         /// <inheritdoc />
@@ -215,10 +343,22 @@ namespace BugTrackerApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "comment");
+
+            migrationBuilder.DropTable(
+                name: "project");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "UserModel");
+
+            migrationBuilder.DropTable(
+                name: "bug");
         }
     }
 }

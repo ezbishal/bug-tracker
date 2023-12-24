@@ -7,16 +7,16 @@ public class MapperProfiles : Profile
 {
     public MapperProfiles()
     {
-        CreateMap<CreateProjectModel, ProjectModel>();
-        CreateMap<GetProjectModel, ProjectModel>();
-        CreateMap<UpdateProjectModel, ProjectModel>();
+        CreateMap<CreateProjectModel, ProjectModel>().ReverseMap();
+        CreateMap<GetProjectModel, ProjectModel>().ReverseMap();
+        CreateMap<UpdateProjectModel, ProjectModel>().ReverseMap();
 
-        CreateMap<CreateBugModel, BugModel>();
-        CreateMap<GetBugModel, BugModel>();
-        CreateMap<UpdateBugModel, BugModel>();
+        CreateMap<CreateBugModel, BugModel>().ReverseMap();
+        CreateMap<GetBugModel, BugModel>().ReverseMap();
+        CreateMap<UpdateBugModel, BugModel>().ReverseMap();
 
-        CreateMap<CreateCommentModel, CommentModel>();
-        CreateMap<GetCommentModel, CommentModel>();
-        CreateMap<UpdateCommentModel, CommentModel>();
+        CreateMap<CreateCommentModel, CommentModel>().ReverseMap();
+        CreateMap<GetCommentModel, CommentModel>().ReverseMap();
+        CreateMap<UpdateCommentModel, CommentModel>().ReverseMap();
     }
 }

@@ -19,7 +19,7 @@ public static class Registry
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.ConfigureSwagger();
-        builder.ConfigureKeyVault();
+        //builder.ConfigureKeyVault();
         builder.ConfigureIdentity();
         builder.ConfigureAuthentication();
         builder.ConfigureBlazor();
@@ -27,10 +27,12 @@ public static class Registry
 
         builder.Services.AddProblemDetails();
 
-        var value = builder.Configuration["BugTrackerDBConnectionString"];
+        //var value = builder.Configuration["BugTrackerDBConnectionString"];
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlite(builder.Configuration["BugTrackerDBConnectionString"]);
+            //options.UseSqlite(builder.Configuration["BugTrackerDBConnectionString"]);
+            options.UseSqlite("Data Source=app.db");
+
         });
 
         builder.Services.AddCors();

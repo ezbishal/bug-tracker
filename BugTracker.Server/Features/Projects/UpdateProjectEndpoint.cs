@@ -32,7 +32,7 @@ public static class UpdateProjectEndpoint
 
             dbContext.SaveChanges();
 
-            var getProjectModel = new GetProjectModel().Map(projectModelToUpdate);
+            var getProjectModel = mapper.Map<GetProjectModel>(projectModelToUpdate);
 
             return Results.CreatedAtRoute(
                 routeName: "GetProjectById",

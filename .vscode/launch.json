@@ -19,8 +19,8 @@
             "preLaunchTask": "build",
             "hosted": true,
             "browser": "edge",
-            "program": "${workspaceFolder}/src/BugTracker.Server/bin/Debug/net8.0/BugTracker.Server.dll",
-            "cwd": "${workspaceFolder}/src/BugTracker.Server",
+            "program": "${workspaceFolder}/BugTracker.Server/bin/Debug/net8.0/BugTracker.Server.dll",
+            "cwd": "${workspaceFolder}/BugTracker.Server",
             "url": "https://localhost:7109"
         }
 

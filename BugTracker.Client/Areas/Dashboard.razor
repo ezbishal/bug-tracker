@@ -1,4 +1,27 @@
 @page "/"
-@rendermode InteractiveAuto
+@inject ProjectService projectService
+@using Shared.Models;
 
-<FluentLabel>List of Projects</FluentLabel>
+<label>List of Projects</label>
+<InputSelect @bind-Value="Projects">
+    @foreach(var project in Projects){
+        <option value="@project.Id">
+            Name: @project.Name
+            Description: @project.Description
+        </option>
+    }
+
+</InputSelect>
+
+
+
+
+@code{
+    private IEnumerable<GetProjectModel> Projects { get; set; }
+    protected override void OnInitialized(){
+
+        Projects = projectService.GetAllProjects().Result;
+        return;
+    }
+}
+

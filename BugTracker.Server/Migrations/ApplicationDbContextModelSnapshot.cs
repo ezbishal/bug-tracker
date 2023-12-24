@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BugTrackerApi.Migrations
+namespace BugTracker.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace BugTrackerApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
-            modelBuilder.Entity("BugTrackerApi.Authentication.ApplicationUser", b =>
+            modelBuilder.Entity("BugTracker.Server.Authentication.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -89,38 +89,71 @@ namespace BugTrackerApi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("BugTrackerApi.Models.Bugs.BugModel", b =>
+            modelBuilder.Entity("BugTracker.Shared.Models.BugModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<Guid>("AssignedToId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Details")
+                    b.Property<string>("Attachments")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<DateTime>("DateReported")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateResolved")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("ProjectModelId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ReportedById")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReproductionSteps")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Severity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("AssignedToId");
+
+                    b.HasIndex("ProjectModelId");
+
+                    b.HasIndex("ReportedById");
 
                     b.ToTable("project", (string)null);
                 });
 
-            modelBuilder.Entity("BugTrackerApi.Models.Comments.CommentModel", b =>
+            modelBuilder.Entity("BugTracker.Shared.Models.CommentModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("BugId")
                         .HasColumnType("INTEGER");
@@ -128,33 +161,82 @@ namespace BugTrackerApi.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Details")
+                    b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BugId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("comment", (string)null);
                 });
 
-            modelBuilder.Entity("BugTrackerApi.Models.Projects.ProjectModel", b =>
+            modelBuilder.Entity("BugTracker.Shared.Models.ProjectModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<int>("BugCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("RepositoryLink")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.ToTable("course", (string)null);
+                    b.ToTable("bug", (string)null);
+                });
+
+            modelBuilder.Entity("BugTracker.Shared.UserModels.UserModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ProjectModelId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectModelId");
+
+                    b.ToTable("UserModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -285,26 +367,45 @@ namespace BugTrackerApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BugTrackerApi.Models.Bugs.BugModel", b =>
+            modelBuilder.Entity("BugTracker.Shared.Models.BugModel", b =>
                 {
-                    b.HasOne("BugTrackerApi.Models.Projects.ProjectModel", "Project")
-                        .WithMany("Bugs")
-                        .HasForeignKey("ProjectId")
+                    b.HasOne("BugTracker.Shared.UserModels.UserModel", "AssignedTo")
+                        .WithMany()
+                        .HasForeignKey("AssignedToId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Project");
+                    b.HasOne("BugTracker.Shared.Models.ProjectModel", null)
+                        .WithMany("Bugs")
+                        .HasForeignKey("ProjectModelId");
+
+                    b.HasOne("BugTracker.Shared.UserModels.UserModel", "ReportedBy")
+                        .WithMany()
+                        .HasForeignKey("ReportedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedTo");
+
+                    b.Navigation("ReportedBy");
                 });
 
-            modelBuilder.Entity("BugTrackerApi.Models.Comments.CommentModel", b =>
+            modelBuilder.Entity("BugTracker.Shared.Models.CommentModel", b =>
                 {
-                    b.HasOne("BugTrackerApi.Models.Bugs.BugModel", "Bug")
-                        .WithMany("Comments")
-                        .HasForeignKey("BugId")
+                    b.HasOne("BugTracker.Shared.UserModels.UserModel", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Bug");
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("BugTracker.Shared.UserModels.UserModel", b =>
+                {
+                    b.HasOne("BugTracker.Shared.Models.ProjectModel", null)
+                        .WithMany("TeamMembers")
+                        .HasForeignKey("ProjectModelId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -318,7 +419,7 @@ namespace BugTrackerApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BugTrackerApi.Authentication.ApplicationUser", null)
+                    b.HasOne("BugTracker.Server.Authentication.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,7 +428,7 @@ namespace BugTrackerApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BugTrackerApi.Authentication.ApplicationUser", null)
+                    b.HasOne("BugTracker.Server.Authentication.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -342,7 +443,7 @@ namespace BugTrackerApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BugTrackerApi.Authentication.ApplicationUser", null)
+                    b.HasOne("BugTracker.Server.Authentication.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -351,21 +452,18 @@ namespace BugTrackerApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BugTrackerApi.Authentication.ApplicationUser", null)
+                    b.HasOne("BugTracker.Server.Authentication.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BugTrackerApi.Models.Bugs.BugModel", b =>
-                {
-                    b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("BugTrackerApi.Models.Projects.ProjectModel", b =>
+            modelBuilder.Entity("BugTracker.Shared.Models.ProjectModel", b =>
                 {
                     b.Navigation("Bugs");
+
+                    b.Navigation("TeamMembers");
                 });
 #pragma warning restore 612, 618
         }

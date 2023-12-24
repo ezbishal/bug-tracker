@@ -22,7 +22,7 @@ public static class GetProjectByIdEndpoint
         ApplicationDbContext dbContext, IMapper mapper)
     {
         var projectModel = dbContext.Projects.ToList().FirstOrDefault(p => p.Id == Id);
-        var getProjectModel = new GetProjectModel().Map(projectModel);
+        var getProjectModel = mapper.Map<GetProjectModel>(projectModel);
         return Results.Ok(getProjectModel);
     }
 }
