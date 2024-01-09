@@ -1,4 +1,4 @@
-using BugTracker.Client.Components;
+using BugTracker.Client.Layout;
 using BugTracker.Server;
 using BugTracker.Server.Helpers;
 
@@ -38,7 +38,7 @@ app.UseCors();
 
 await app.SeedRoles();
 
-app.MapEndpoints();
+app.MapApiEndpoints();
 
 app.Run();
 

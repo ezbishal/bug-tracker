@@ -1,9 +1,9 @@
 @page "/"
 @inject ProjectService projectService
-@using Shared.Models;
+@using BugTracker.Shared.Models;
 
 <label>List of Projects</label>
-<InputSelect @bind-Value="Projects">
+<select @bind="@selectedProjectId">
     @foreach(var project in Projects){
         <option value="@project.Id">
             Name: @project.Name
@@ -11,12 +11,10 @@
         </option>
     }
 
-</InputSelect>
-
-
-
+</select>
 
 @code{
+    int selectedProjectId { get; set; } = 1000;
     private IEnumerable<GetProjectModel> Projects { get; set; }
     protected override void OnInitialized(){
 
@@ -24,4 +22,3 @@
         return;
     }
 }
-

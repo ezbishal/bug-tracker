@@ -1,6 +1,6 @@
 using System;
 
-namespace BugTracker.Shared.Generator.Attributes;
+namespace BugTracker.Generator.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class UseExistingDto : Attribute

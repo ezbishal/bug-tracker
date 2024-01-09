@@ -9,12 +9,12 @@ public static class WebApplicationExtension
 		using var scope = app.Services.CreateScope();
 		var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-		if(!await roleManager.RoleExistsAsync("Admin")) await roleManager.CreateAsync(new IdentityRole("Admin"));
-		if(!await roleManager.RoleExistsAsync("ProjectManager")) await roleManager.CreateAsync(new IdentityRole("ProjectManager"));
-		if(!await roleManager.RoleExistsAsync("TeamLead")) await roleManager.CreateAsync(new IdentityRole("TeamLead"));
-		if(!await roleManager.RoleExistsAsync("TeamMember")) await roleManager.CreateAsync(new IdentityRole("TeamMember"));
-		if(!await roleManager.RoleExistsAsync("Guest")) await roleManager.CreateAsync(new IdentityRole("Guest"));
-		
+		if (!await roleManager.RoleExistsAsync(RolesEnum.Admin.ToString())) await roleManager.CreateAsync(new IdentityRole(RolesEnum.Admin.ToString()));
+		if (!await roleManager.RoleExistsAsync(RolesEnum.ProjectManager.ToString())) await roleManager.CreateAsync(new IdentityRole(RolesEnum.ProjectManager.ToString()));
+		if (!await roleManager.RoleExistsAsync(RolesEnum.TeamLead.ToString())) await roleManager.CreateAsync(new IdentityRole(RolesEnum.TeamLead.ToString()));
+		if (!await roleManager.RoleExistsAsync(RolesEnum.TeamMember.ToString())) await roleManager.CreateAsync(new IdentityRole(RolesEnum.TeamMember.ToString()));
+		if (!await roleManager.RoleExistsAsync(RolesEnum.Guest.ToString())) await roleManager.CreateAsync(new IdentityRole(RolesEnum.Guest.ToString()));
+
 		return app;
 	}
 	

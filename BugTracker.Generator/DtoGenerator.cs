@@ -1,4 +1,4 @@
-using BugTracker.Shared.Generator.Attributes;
+using BugTracker.Generator.Attributes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Text;
 using System.Collections.Immutable;
 using System.Text;
 
-namespace BugTracker.Shared.Generator;
+namespace BugTracker.Generator;
 
 [Generator]
 public class DtoGenerator : IIncrementalGenerator
@@ -112,47 +112,50 @@ public class DtoGenerator : IIncrementalGenerator
 			.Where(u => u.StartsWith(className) && u.Contains(" > "));
 		return argument.FirstOrDefault()?.Split('>')[1];
 	}
-	
+
 	private string GenerateClass(string originalName, string className, IEnumerable<NamespaceDeclarationSyntax> namespaces, IEnumerable<UsingDirectiveSyntax> usingDirectives,
-        IEnumerable<PropertyDeclarationSyntax> properties, bool useDynamic)
+		IEnumerable<PropertyDeclarationSyntax> properties, bool useDynamic)
 
-    {
-        var usings = new List<UsingDirectiveSyntax>
-        {
-            SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System.Dynamic")),
-            SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System.Collections")),
-            SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("BugTracker.Shared.Models"))
-        };
+	{
+		var usings = new List<UsingDirectiveSyntax>
+		{
+			SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System.Dynamic")),
+			SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System.Collections")),
+			SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("BugTracker.Shared.Models"))
+		};
 
-        usings.AddRange(namespaces.Select(nd => SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(nd.Name.ToString()))));
+		usings.AddRange(namespaces.Select(nd => SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(nd.Name.ToString()))));
 
-        usings.AddRange(usingDirectives);
+		usings.AddRange(usingDirectives);
 
-        var classDeclaration = SyntaxFactory.ClassDeclaration(className)
-            .AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
+		var classDeclaration = SyntaxFactory.ClassDeclaration(className)
+			.AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword));
 
-        foreach (var property in properties)
-        {
-            var useExisting = GetUsingExistingAttribute(property);
-            var propertyDeclaration = useExisting == null
-                ? property
-                : SyntaxFactory.PropertyDeclaration(
-                    SyntaxFactory.ParseTypeName(GetUsingArgument(useExisting, className) ?? $"{property.Type}DTO"),
-                    property.Identifier)
-                .WithModifiers(property.Modifiers)
-                .WithAccessorList(property.AccessorList);
 
-            classDeclaration = classDeclaration.AddMembers(propertyDeclaration);
-        }
+		foreach (var property in properties)
+		{
+			var useExisting = GetUsingExistingAttribute(property);
+			var propertyDeclaration = useExisting == null
+				? SyntaxFactory.PropertyDeclaration(property.Type, property.Identifier)
+					.WithModifiers(property.Modifiers)
+					.WithAccessorList(property.AccessorList)
+				: SyntaxFactory.PropertyDeclaration(
+					SyntaxFactory.ParseTypeName(GetUsingArgument(useExisting, className) ?? $"{property.Type}DTO"),
+					property.Identifier)
+					.WithModifiers(property.Modifiers)
+					.WithAccessorList(property.AccessorList);
 
-        var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName("BugTracker.Shared.Models"))
-            .AddMembers(classDeclaration);
+			classDeclaration = classDeclaration.AddMembers(propertyDeclaration);
+		}
 
-        var compilationUnit = SyntaxFactory.CompilationUnit()
-            .AddUsings([.. usings])
-            .AddMembers(namespaceDeclaration)
-            .NormalizeWhitespace();
+		var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName("BugTracker.Shared.Models"))
+			.AddMembers(classDeclaration);
 
-        return compilationUnit.ToString();
-    }
+		var compilationUnit = SyntaxFactory.CompilationUnit()
+			.AddUsings([.. usings])
+			.AddMembers(namespaceDeclaration)
+			.NormalizeWhitespace();
+
+		return compilationUnit.ToString();
+	}
 }

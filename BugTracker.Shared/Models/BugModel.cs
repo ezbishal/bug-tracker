@@ -1,5 +1,5 @@
+using BugTracker.Generator.Attributes;
 using BugTracker.Shared.Enums;
-using BugTracker.Shared.Generator.Attributes;
 using BugTracker.Shared.UserModels;
 using System;
 using System.Collections.Generic;

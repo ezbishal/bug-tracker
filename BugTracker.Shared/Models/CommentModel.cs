@@ -1,4 +1,4 @@
-using BugTracker.Shared.Generator.Attributes;
+using BugTracker.Generator.Attributes;
 using BugTracker.Shared.UserModels;
 using System;
 

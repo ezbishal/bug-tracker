@@ -1,4 +1,4 @@
-namespace BugTracker.Shared.Generator;
+namespace BugTracker.Generator;
 
 public static class StringExtensionMethods
 {
