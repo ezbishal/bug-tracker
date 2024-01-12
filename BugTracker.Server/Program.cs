@@ -6,20 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureServices();
 var app = builder.Build();
 
-
-if (app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI(c =>
-	{
-		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bug Tracker API");
-	});
-}
-else
-{
-	app.UseHsts();
-}
-
 app.UseStaticFiles();
 
 app.UseAntiforgery();
@@ -32,9 +18,9 @@ app.UseCors();
 
 await app.SeedRoles();
 
-app.MapGet("/", () => 
+app.MapGet("/", () =>
 {
-	return new RazorComponentResult<_Host>();
+    return new RazorComponentResult<_Host>();
 });
 
 app.MapApiEndpoints();

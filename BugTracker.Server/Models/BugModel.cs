@@ -1,15 +1,10 @@
-using BugTracker.Generator.Attributes;
 using BugTracker.Shared.Enums;
 using BugTracker.Shared.UserModels;
-using System;
-using System.Collections.Generic;
 
 namespace BugTracker.Shared.Models;
 
-[GenerateDto("CreateBugModel", "GetBugModel", "UpdateBugModel")]
 public class BugModel
 {
-    [ExcludeProperty("CreateBugModel", "UpdateBugModel")]
     public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }

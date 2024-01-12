@@ -1,6 +1,6 @@
 ﻿using BugTracker.Server.Data;
 
-namespace BugTracker.Server.Features.Projects
+namespace BugTracker.Server.Areas.Projects
 {
     public static class DeleteProjectEndpoint
     {

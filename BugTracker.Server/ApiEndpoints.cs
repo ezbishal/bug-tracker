@@ -1,5 +1,5 @@
-using BugTracker.Server.Authentication;
-using BugTracker.Server.Features.Projects;
+using BugTracker.Server.Areas.Authentication;
+using BugTracker.Server.Areas.Projects;
 
 public static class ApiEndpoints
 {

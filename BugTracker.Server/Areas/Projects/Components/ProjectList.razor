@@ -1,0 +1,15 @@
+@using Microsoft.AspNetCore.Components.Forms;
+@using BugTracker.Shared.Models;
+@using AutoBogus;
+
+<select>
+    @foreach (var project in projects)
+    {
+        <option value="@project.Id">@project.Name</option>
+    }
+</select>
+
+@code{
+
+    List<ProjectModel> projects = AutoFaker.Generate<ProjectModel>(10);
+}

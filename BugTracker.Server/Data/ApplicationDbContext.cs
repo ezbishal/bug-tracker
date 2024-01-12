@@ -1,4 +1,4 @@
-using BugTracker.Server.Authentication;
+using BugTracker.Server.Areas.Authentication;
 using BugTracker.Shared.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

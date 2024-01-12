@@ -1,7 +1,7 @@
 ﻿using BugTracker.Shared.Models;
 using FluentValidation;
 
-namespace BugTracker.Server.Features.Projects.Validators;
+namespace BugTracker.Server.Areas.Projects.Validators;
 
 public class CreateProjectValidator : AbstractValidator<ProjectModel>
 {

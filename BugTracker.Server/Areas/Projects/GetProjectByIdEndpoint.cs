@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using BugTracker.Server.Data;
-using BugTracker.Shared.Models;
+﻿using BugTracker.Server.Data;
 
-namespace BugTracker.Server.Features.Projects;
+namespace BugTracker.Server.Areas.Projects;
 
 public static class GetProjectByIdEndpoint
 {
@@ -19,10 +17,9 @@ public static class GetProjectByIdEndpoint
     /// Get specific project
     /// </summary>
     public static async Task<IResult> GetProjectById(int Id,
-        ApplicationDbContext dbContext, IMapper mapper)
+        ApplicationDbContext dbContext)
     {
         var projectModel = dbContext.Projects.ToList().FirstOrDefault(p => p.Id == Id);
-        var getProjectModel = mapper.Map<GetProjectModel>(projectModel);
-        return Results.Ok(getProjectModel);
+        return Results.Ok(projectModel);
     }
 }
