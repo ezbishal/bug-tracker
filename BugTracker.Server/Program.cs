@@ -1,6 +1,6 @@
-using BugTracker.Client.Layout;
 using BugTracker.Server;
 using BugTracker.Server.Helpers;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureServices();
@@ -14,8 +14,6 @@ if (app.Environment.IsDevelopment())
 	{
 		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bug Tracker API");
 	});
-
-	app.UseWebAssemblyDebugging();
 }
 else
 {
@@ -26,10 +24,6 @@ app.UseStaticFiles();
 
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
-	.AddInteractiveServerRenderMode()
-	.AddInteractiveWebAssemblyRenderMode();
-
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -37,6 +31,11 @@ app.UseAuthorization();
 app.UseCors();
 
 await app.SeedRoles();
+
+app.MapGet("/", () => 
+{
+	return new RazorComponentResult<_Host>();
+});
 
 app.MapApiEndpoints();
 
