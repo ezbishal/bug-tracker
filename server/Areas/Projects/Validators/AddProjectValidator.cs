@@ -11,6 +11,5 @@ public class CreateProjectValidator : AbstractValidator<ProjectModel>
             .NotNull()
             .NotEmpty()
             .MinimumLength(3);
-
     }
 }

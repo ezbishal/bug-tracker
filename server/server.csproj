@@ -17,6 +17,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <PackageReference Include="AutoBogus" Version="2.13.1" />
+    <PackageReference Include="Swashbuckle" Version="5.6.0" />
+    <PackageReference Include="Swashbuckle.AspnetCore.SwaggerGen" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspnetCore.SwaggerUI" Version="6.5.0" />
 
   </ItemGroup>
 

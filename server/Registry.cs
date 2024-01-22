@@ -12,73 +12,75 @@ namespace server;
 
 public static class Registry
 {
-    public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
-    {
-        builder.ConfigureIdentity();
-        builder.ConfigureAuthentication();
+	public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
+	{
+		builder.ConfigureIdentity();
+		builder.ConfigureAuthentication();
+		
+		builder.Services.AddAntiforgery();
 
-        builder.Services.AddProblemDetails();
+		builder.Services.AddProblemDetails();
 
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        {
-            options.UseSqlite("Data Source=app.db");
+		builder.Services.AddDbContext<ApplicationDbContext>(options =>
+		{
+			options.UseSqlite("Data Source=app.db");
 
-        });
+		});
 
-        builder.Services.AddCors();
+		builder.Services.AddCors();
 
-        builder.Services.AddEndpointsApiExplorer();
+		builder.Services.AddEndpointsApiExplorer();
 
-        builder.Services.AddAuthorization();
+		builder.Services.AddAuthorization();
 
-        builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+		builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
-        builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
+		builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 
-        builder.Services.AddCors();
+		builder.Services.AddCors();
 
-        return builder;
-    }
+		return builder;
+	}
 
-    public static WebApplicationBuilder ConfigureAuthentication(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt")),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                };
+	public static WebApplicationBuilder ConfigureAuthentication(this WebApplicationBuilder builder)
+	{
+		builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+			.AddJwtBearer(options =>
+			{
+				options.RequireHttpsMetadata = false;
+				options.SaveToken = true;
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt")),
+					ValidateIssuer = false,
+					ValidateAudience = false,
+				};
 
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        context.Token = context.Request.Cookies["jwt"];
-                        return Task.CompletedTask;
-                    },
-                };
-            });
+				options.Events = new JwtBearerEvents
+				{
+					OnMessageReceived = context =>
+					{
+						context.Token = context.Request.Cookies["jwt"];
+						return Task.CompletedTask;
+					},
+				};
+			});
 
-        return builder;
-    }
+		return builder;
+	}
 
-    public static WebApplicationBuilder ConfigureIdentity(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-        {
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireDigit = false;
-            options.Password.RequireUppercase = false;
-        })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+	public static WebApplicationBuilder ConfigureIdentity(this WebApplicationBuilder builder)
+	{
+		builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+		{
+			options.Password.RequireNonAlphanumeric = false;
+			options.Password.RequireDigit = false;
+			options.Password.RequireUppercase = false;
+		})
+			.AddEntityFrameworkStores<ApplicationDbContext>()
+			.AddDefaultTokenProviders();
 
-        return builder;
-    }
+		return builder;
+	}
 }
