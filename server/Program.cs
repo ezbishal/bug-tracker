@@ -1,18 +1,24 @@
+using Server;
+using Server.Helpers;
 using System.Reflection;
-using server;
-using server.Contracts;
-using server.Helpers;
+using Server.Areas.Projects;
+using Server.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.ConfigureServices();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => 
+{	
+	var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+	var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+	c.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 
 var env = app.Environment;
 
-if(env.IsDevelopment())
+if (env.IsDevelopment())
 {
 	app.UseDeveloperExceptionPage();
 	app.UseSwagger();
@@ -30,24 +36,10 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapProjectEndpoints();
+app.MapAuthEndpoints();
+
 await app.SeedRoles();
 
-RegisterAllEndpoints(app);
-
 app.Run();
-
-static IEndpointRouteBuilder RegisterAllEndpoints(IEndpointRouteBuilder app)
-{
-	var types = Assembly.GetExecutingAssembly().GetTypes()
-		.Where(t => t.GetInterfaces().Contains(typeof(IModule)) && !t.IsAbstract);
-		
-	foreach (var type in types)
-	{
-		var instance = Activator.CreateInstance(type) as IModule;
-		instance?.RegisterEndpoints(app);
- 
-	}
-
-	return app;
-}
 

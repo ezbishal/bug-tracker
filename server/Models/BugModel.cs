@@ -1,7 +1,7 @@
-using server.Authentication;
-using server.Enums;
+using Server.Authentication;
+using Server.Enums;
 
-namespace server.Models;
+namespace Server.Models;
 
 public class BugModel
 {

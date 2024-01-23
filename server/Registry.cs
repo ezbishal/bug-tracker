@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using server.Authentication;
-using server.Data;
-using server.Exceptions;
+using Server.Authentication;
+using Server.Data;
+using Server.Exceptions;
 using System.Text;
 
-namespace server;
+namespace Server;
 
 public static class Registry
 {

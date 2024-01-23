@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using server.Exceptions;
+using Server.Exceptions;
 
-namespace server.Helpers;
+namespace Server.Helpers;
 
 public class ValidationFilter<T> : IEndpointFilter
 {

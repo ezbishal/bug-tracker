@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace server.Helpers;
+namespace Server.Helpers;
 
 public static class WebApplicationExtension
 {

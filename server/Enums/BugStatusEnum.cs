@@ -1,4 +1,4 @@
-namespace server.Enums;
+namespace Server.Enums;
 
 public enum BugStatusEnum
 {

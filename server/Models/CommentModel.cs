@@ -1,6 +1,6 @@
-using server.Authentication;
+using Server.Authentication;
 
-namespace server.Models;
+namespace Server.Models;
 
 public class CommentModel
 {

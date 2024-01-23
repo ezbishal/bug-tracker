@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace server.Exceptions;
+namespace Server.Exceptions;
 
 public class CustomExceptionHandler : IExceptionHandler
 {

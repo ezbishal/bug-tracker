@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using server.Models;
+using Server.Models;
 
-namespace server.Areas.Projects.Validators;
+namespace Server.Areas.Projects.Validators;
 
 public class CreateProjectValidator : AbstractValidator<ProjectModel>
 {
