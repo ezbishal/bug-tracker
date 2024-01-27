@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
 import './App.css';
+import Dashboard from './Components/Dashboard';
 
 const App: FC = () => {
+
   return (
-    <div className="App">
-      <h1 className='text-green-900'>Bug Tracker</h1>
-    </div>
-  );
+     <Dashboard />
+    );
 }
 
 export default App;
+

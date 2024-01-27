@@ -25,7 +25,7 @@ if (env.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors("AllowOrigins");
 
 app.UseStaticFiles();
 

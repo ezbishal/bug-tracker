@@ -5,13 +5,8 @@ using Server.Models;
 
 namespace Server.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options)
 {
-    public ApplicationDbContext(DbContextOptions options)
-        : base(options)
-    {
-
-    }
     public DbSet<ProjectModel> Projects { get; set; }
     public DbSet<BugModel> Bugs { get; set; }
     public DbSet<CommentModel> Comments { get; set; }

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,7 +28,13 @@ public static class Registry
 
 		});
 
-		builder.Services.AddCors();
+		builder.Services.AddCors(c => {
+			c.AddPolicy("AllowOrigins", builder => {
+				builder.AllowAnyHeader()
+						.AllowAnyMethod()
+						.AllowAnyOrigin();
+			});
+		});
 
 		builder.Services.AddEndpointsApiExplorer();
 
@@ -74,8 +81,6 @@ public static class Registry
 	{
 		builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 		{
-			options.Password.RequireNonAlphanumeric = false;
-			options.Password.RequireDigit = false;
 			options.Password.RequireUppercase = false;
 		})
 			.AddEntityFrameworkStores<ApplicationDbContext>()

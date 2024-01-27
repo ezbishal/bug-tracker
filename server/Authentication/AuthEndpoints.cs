@@ -44,7 +44,7 @@ public static class AuthEndpoints
 			UserName = registerUserModel.Username
 		};
 		
-		var result = await userManager.CreateAsync(user, registerUserModel.Password);
+		IdentityResult? result = await userManager.CreateAsync(user, registerUserModel.Password);
 
 		if (result.Succeeded)
 		{
@@ -62,7 +62,6 @@ public static class AuthEndpoints
 		try
 		{
 			IEnumerable<ApplicationUser> users = await userManager.Users.ToListAsync(cancellationToken);
-			Debug.WriteLine(users);
 			if (users?.Any() ?? false) return Results.Ok(users);
 			else return Results.NotFound();
 		}
