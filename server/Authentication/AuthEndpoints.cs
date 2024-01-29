@@ -2,9 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Server.Helpers;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -43,7 +40,7 @@ public static class AuthEndpoints
 			LastName = registerUserModel.LastName,
 			UserName = registerUserModel.Username
 		};
-		
+
 		IdentityResult? result = await userManager.CreateAsync(user, registerUserModel.Password);
 
 		if (result.Succeeded)
@@ -71,17 +68,18 @@ public static class AuthEndpoints
 		}
 
 	}
-	public static async Task<IResult> GetToken([FromQuery(Name = "username")] string username,
-		[FromQuery(Name = "password"), DataType(DataType.Password)] string password,
+	public static async Task<IResult> GetToken([FromBody] dynamic credentials,
 		UserManager<ApplicationUser> userManager,
 		CancellationToken cancellationToken)
 	{
+		string username = credentials.GetProperty("username").GetString();
+		string password = credentials.GetProperty("password").GetString();
+
 		var user = await userManager.FindByNameAsync(username);
 		if (user is not null && await userManager.CheckPasswordAsync(user, password))
 		{
 			var token = GenerateJwtToken(user);
 			return Results.Ok(token);
-
 		}
 
 		return Results.Unauthorized();

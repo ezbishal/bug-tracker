@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Server.Data;
 using Server.Models;
 
@@ -8,7 +9,7 @@ public static class ProjectEndpoints
 {
 	public static IEndpointRouteBuilder MapProjectEndpoints(this IEndpointRouteBuilder app)
 	{
-		RouteGroupBuilder group = app.MapGroup("/api/project").WithTags("Project");
+		RouteGroupBuilder group = app.MapGroup("/api/projects").WithTags("Project");
 
 		group.MapGet("", GetAllProjects)
 			.WithName(nameof(GetAllProjects))
@@ -43,6 +44,7 @@ public static class ProjectEndpoints
 		}
 		catch (Exception ex)
 		{
+			Log.Error(ex.Message);
 			throw new Exception(ex.Message);
 		}
 
@@ -62,6 +64,7 @@ public static class ProjectEndpoints
 		}
 		catch (Exception ex)
 		{
+			Log.Error(ex.Message);
 			throw new Exception(ex.Message);
 		}
 	}
@@ -75,6 +78,7 @@ public static class ProjectEndpoints
 		}
 		catch (Exception ex)
 		{
+			Log.Error(ex.Message);
 			throw new Exception(ex.Message);
 		}
 
@@ -89,6 +93,7 @@ public static class ProjectEndpoints
 		}
 		catch (Exception ex)
 		{
+			Log.Error(ex.Message);
 			throw new Exception(ex.Message);
 		}
 	}
