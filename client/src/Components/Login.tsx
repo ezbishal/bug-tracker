@@ -1,6 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, NavigateFunction } from 'react-router-dom'
 
 interface LoginProps {
   setToken: (value: string) => void;
@@ -26,16 +26,15 @@ const Login: FC<LoginProps> = ({ setToken }) => {
     }
   };
   
-  const navigate = useNavigate();
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const navigate: NavigateFunction = useNavigate();
+
+  const handleSubmit = async ( event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     const token = await GetToken({ username, password });
     if(token) {
         setToken(token);
-        navigate("/");
+        navigate("/", { replace: true });
     }
   };
 
