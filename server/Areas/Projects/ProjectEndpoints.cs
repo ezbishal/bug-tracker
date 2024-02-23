@@ -1,3 +1,4 @@
+using AutoBogus;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Server.Data;
@@ -71,16 +72,18 @@ public static class ProjectEndpoints
 
 	private static async Task<IResult> GetAllProjects(ApplicationDbContext dbContext)
 	{
-		try
-		{
-			IEnumerable<ProjectModel> projects = await dbContext.Projects.ToListAsync();
-			return Results.Ok(projects);
-		}
-		catch (Exception ex)
-		{
-			Log.Error(ex.Message);
-			throw new Exception(ex.Message);
-		}
+		// try
+		// {
+		// 	IEnumerable<ProjectModel> projects = await dbContext.Projects.ToListAsync();
+		// 	return Results.Ok(projects);
+		// }
+		// catch (Exception ex)
+		// {
+		// 	Log.Error(ex.Message);
+		// 	throw new Exception(ex.Message);
+		// }
+
+		return Results.Ok(AutoFaker.Generate<ProjectModel>(5));
 
 	}
 

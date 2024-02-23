@@ -1,8 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import Dashboard from './Components/Dashboard';
 import Login from './Components/Login';
+import { AuthProvider } from './Services/AuthProvider';
 
 const setToken = (userToken: string): void => {
   sessionStorage.setItem('token', userToken);
@@ -16,12 +17,14 @@ const getToken = (): string => {
 const App: FC = () => {
 
   return (
-    <BrowserRouter>
+    <AuthProvider>
+     <BrowserRouter>
       <Routes>
         <Route path='login' element={ getToken() !== '' ? <Navigate replace to={'/'} /> : <Login setToken={setToken} />} />
         <Route path='/' element={ getToken() !== '' ? <Dashboard /> : <Navigate replace to={'/login'} />} />
       </Routes>
-    </BrowserRouter>
+     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
