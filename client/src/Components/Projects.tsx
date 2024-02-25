@@ -1,6 +1,8 @@
 import React, { FC, useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import ProjectModel from "../Models/ProjectModel";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Projects: FC = () => {
   const baseUrl: string = "https://localhost:7109/api";
@@ -18,40 +20,32 @@ const Projects: FC = () => {
     }
   }, []);
 
-  const onProjectClick = (e: React.MouseEvent) => {};
-
   return (
-    <div className="App">
-      <h1 className="text-green-900">Bug Tracker</h1>
+    <>
+    <div className="flex w-full justify-between">
+      <h1 className="text-[30px] font-bold ml-5">Dashboard</h1>
+      <FontAwesomeIcon icon={faUser} className="m-5" />
+    </div>
 
-      <div>
-        <h2>Projects</h2>
+      <div className="flex flex-col gap-5 m-5">
+        <h3 className="text-[20px]">Projects</h3>
         {projects.map((project: ProjectModel) => (
           <div key={project.id}>
-            <label>Project Name:</label>
-            <h3 className="text-[100px]" onClick={onProjectClick}>
+          <a
+            href={`/projects/${project.id}`}
+            className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          >
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {project.name}
-            </h3>
-            <label htmlFor="description">Description:</label>
-            <input type="text" id="description" value={project.description} />
-            <label htmlFor="startDate">Project Start Date</label>
-            <input
-              id="startDate"
-              type="date"
-              disabled
-              value={project.startDate.toString()}
-            />
-            <label htmlFor="endDate">Project End Date</label>
-            <input
-              id="endDate"
-              type="date"
-              disabled
-              value={project.endDate?.toString()}
-            />
+            </h5>
+            <p className="font-normal text-gray-700 dark:text-gray-400">
+              {project.description}
+            </p>
+          </a>
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

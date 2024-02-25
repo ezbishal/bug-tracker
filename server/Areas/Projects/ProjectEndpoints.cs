@@ -1,4 +1,5 @@
 using AutoBogus;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Server.Data;
@@ -87,11 +88,14 @@ public static class ProjectEndpoints
 
 	}
 
-	private static async Task<IResult> GetProjectById(int id, ApplicationDbContext dbContext)
+	private static async Task<IResult> GetProjectById([FromRoute] int id, ApplicationDbContext dbContext)
 	{
 		try
 		{
-			ProjectModel project = await dbContext.Projects.SingleAsync(p => p.Id == id);
+			// ProjectModel project = await dbContext.Projects.SingleAsync(p => p.Id == id);
+			// return Results.Ok(project);
+			var project = AutoFaker.Generate<ProjectModel>(1).First();
+			project.Id = id; 
 			return Results.Ok(project);
 		}
 		catch (Exception ex)

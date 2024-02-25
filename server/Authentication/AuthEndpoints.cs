@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Dumpify;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace Server.Authentication;
 public static class AuthEndpoints
 {
     public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder app) {
+
         RouteGroupBuilder group = app.MapGroup("/api/user").WithTags("Authentication");
 
         group.MapGet("", GetAllUsers)
@@ -36,15 +38,18 @@ public static class AuthEndpoints
         {
             FirstName = registerUserModel.FirstName,
             LastName = registerUserModel.LastName,
-            UserName = registerUserModel.Username
+            UserName = registerUserModel.Email,
+            Email = registerUserModel.Email
         };
 
         IdentityResult? result = await userManager.CreateAsync(user, registerUserModel.Password);
+        result.Dump();
 
         if (result.Succeeded)
         {
             await userManager.AddToRoleAsync(user, RolesEnum.Admin.ToString());
-            return Results.Ok(user);
+            // return Results.Ok(user);
+            return Results.Ok("User created");
         }
         else
         {
@@ -70,10 +75,10 @@ public static class AuthEndpoints
         UserManager<ApplicationUser> userManager,
         CancellationToken cancellationToken)
     {
-        string username = credentials.GetProperty("username").GetString();
+        string email = credentials.GetProperty("email").GetString();
         string password = credentials.GetProperty("password").GetString();
 
-        var user = await userManager.FindByNameAsync(username);
+        var user = await userManager.FindByNameAsync(email);
         if (user is not null && await userManager.CheckPasswordAsync(user, password))
         {
             var token = GenerateJwtToken(user);
@@ -87,7 +92,7 @@ public static class AuthEndpoints
     {
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, user.UserName)
+            new(JwtRegisteredClaimNames.Sub, user.Email)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt"));

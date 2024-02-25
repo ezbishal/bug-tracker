@@ -1,5 +1,3 @@
-import ProjectStatusEnum from "../Enums/ProjectStatusEnum";
-
 interface ProjectModel {
   id: string;
   name: string;
@@ -7,7 +5,6 @@ interface ProjectModel {
   description: string;
   startDate: Date;
   endDate: Date | null;
-  status: ProjectStatusEnum;
   repositoryLink: string;
 }
 
