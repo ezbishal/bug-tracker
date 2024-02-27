@@ -1,6 +1,6 @@
 namespace Server.Models;
 
-public class ProjectModel
+public class BugModel
 {
     public int Id { get; set; }
     public string Name { get; set; }

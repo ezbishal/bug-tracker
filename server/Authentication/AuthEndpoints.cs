@@ -18,6 +18,7 @@ public static class AuthEndpoints
         group.MapGet("", GetAllUsers)
             .WithName(nameof(GetAllUsers))
             .WithOpenApi();
+        
 
         group.MapPost("/register", RegisterUser)
             .WithName(nameof(RegisterUser))
@@ -97,7 +98,7 @@ public static class AuthEndpoints
             new(JwtRegisteredClaimNames.Email, user.Email)
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt"));
+       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt"));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
