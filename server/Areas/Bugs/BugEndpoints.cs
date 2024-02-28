@@ -51,8 +51,6 @@ public static class BugEndpoints
 		try
 		{
 			BugModel bugToUpdate = await dbContext.Bugs.SingleAsync(b => b.Id == id);
-			bugToUpdate.ProjectId = bug.ProjectId;
-			bugToUpdate.ReproductionSteps = bug.ReproductionSteps;
 			dbContext.SaveChanges();
 
 			return Results.Ok(bugToUpdate);
@@ -69,7 +67,7 @@ public static class BugEndpoints
 	{
 		try
 		{
-			await dbContext.Projects.AddAsync(bug);
+			await dbContext.Bugs.AddAsync(bug);
 			dbContext.SaveChanges();
 			return Results.CreatedAtRoute(
 				routeName: nameof(GetBugById),
@@ -88,7 +86,7 @@ public static class BugEndpoints
 	{
 		// try
 		// {
-		// 	IEnumerable<ProjectModel> projects = await dbContext.Projects.ToListAsync();
+		// 	IEnumerable<BugModel> projects = await dbContext.Projects.ToListAsync();
 		// 	return Results.Ok(projects);
 		// }
 		// catch (Exception ex)
@@ -97,7 +95,7 @@ public static class BugEndpoints
 		// 	throw new Exception(ex.Message);
 		// }
 
-		return Results.Ok(AutoFaker.Generate<ProjectModel>(5));
+		return Results.Ok(AutoFaker.Generate<BugModel>(5));
 
 	}
 
@@ -105,9 +103,9 @@ public static class BugEndpoints
 	{
 		try
 		{
-			// ProjectModel project = await dbContext.Projects.SingleAsync(p => p.Id == id);
+			// BugModel project = await dbContext.Projects.SingleAsync(p => p.Id == id);
 			// return Results.Ok(project);
-			var project = AutoFaker.Generate<ProjectModel>(1).First();
+			var project = AutoFaker.Generate<BugModel>(1).First();
 			project.Id = id; 
 			return Results.Ok(project);
 		}

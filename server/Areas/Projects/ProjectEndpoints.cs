@@ -33,11 +33,11 @@ public static class ProjectEndpoints
 		return app;
 	}
 	
-	private static async Task<IResult> UpdateProject(int id, BugModel project, ApplicationDbContext dbContext)
+	private static async Task<IResult> UpdateProject(int id, ProjectModel project, ApplicationDbContext dbContext)
 	{
 		try
 		{
-			BugModel projectToUpdate = await dbContext.Projects.SingleAsync(p => p.Id == id);
+			ProjectModel projectToUpdate = await dbContext.Projects.SingleAsync(p => p.Id == id);
 			projectToUpdate.Name = project.Name;
 			dbContext.SaveChanges();
 
@@ -51,7 +51,7 @@ public static class ProjectEndpoints
 
 	}
 
-	private static async Task<IResult> CreateProject(BugModel project, ApplicationDbContext dbContext)
+	private static async Task<IResult> CreateProject(ProjectModel project, ApplicationDbContext dbContext)
 	{
 		try
 		{
@@ -83,7 +83,7 @@ public static class ProjectEndpoints
 		// 	throw new Exception(ex.Message);
 		// }
 
-		return Results.Ok(AutoFaker.Generate<BugModel>(5));
+		return Results.Ok(AutoFaker.Generate<ProjectModel>(5));
 
 	}
 
@@ -93,7 +93,7 @@ public static class ProjectEndpoints
 		{
 			// ProjectModel project = await dbContext.Projects.SingleAsync(p => p.Id == id);
 			// return Results.Ok(project);
-			var project = AutoFaker.Generate<BugModel>(1).First();
+			var project = AutoFaker.Generate<ProjectModel>(1).First();
 			project.Id = id; 
 			return Results.Ok(project);
 		}

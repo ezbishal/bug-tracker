@@ -3,7 +3,7 @@ using Server.Models;
 
 namespace Server.Areas.Projects.Validators;
 
-public class UpdateProjectValidator : AbstractValidator<BugModel>
+public class UpdateProjectValidator : AbstractValidator<ProjectModel>
 {
     public UpdateProjectValidator()
     {

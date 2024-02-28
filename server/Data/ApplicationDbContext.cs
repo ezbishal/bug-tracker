@@ -7,14 +7,14 @@ namespace Server.Data;
 
 public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options)
 {
-    public DbSet<BugModel> Projects { get; set; }
+    public DbSet<ProjectModel> Projects { get; set; }
     public DbSet<BugModel> Bugs { get; set; }
     public DbSet<CommentModel> Comments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BugModel>().ToTable("bug");
-        modelBuilder.Entity<BugModel>().ToTable("project");
+        modelBuilder.Entity<ProjectModel>().ToTable("project");
         modelBuilder.Entity<CommentModel>().ToTable("comment");
         base.OnModelCreating(modelBuilder);
 
