@@ -86,7 +86,6 @@ public static class AuthEndpoints
             return Results.Ok(token);
         }
 
-
         return Results.Unauthorized();
     }
     public static string GenerateJwtToken(ApplicationUser user)
