@@ -13,7 +13,7 @@ public static class AuthEndpoints
 {
     public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder app) {
 
-        RouteGroupBuilder group = app.MapGroup("/api/user").WithTags("Authentication");
+        RouteGroupBuilder group = app.MapGroup("/api/users").WithTags("Authentication");
 
         group.MapGet("", GetAllUsers)
             .WithName(nameof(GetAllUsers))
@@ -24,11 +24,52 @@ public static class AuthEndpoints
             .WithName(nameof(RegisterUser))
             .WithOpenApi();
 
-        group.MapPost("/token", GetToken)
+        group.MapGet("/token", GetToken)
             .WithName(nameof(GetToken))
             .WithOpenApi();
+        
+        group.MapPut("/{email}", UpdateUser)
+            .WithName(nameof(UpdateUser))
+            .WithOpenApi();
+
+        group.MapDelete("/{email}", DeleteUser)
+            .WithName(nameof(DeleteUser))
+            .WithOpenApi();
+
 
         return app;
+    }
+
+    private static async Task<IResult> UpdateUser([FromRoute] string email, RegisterUserModel user, UserManager<ApplicationUser> userManager, HttpContext context)
+    {
+        ApplicationUser userToUpdate = await userManager.FindByEmailAsync(email);
+        if(userToUpdate is null) return Results.NotFound();
+        userToUpdate.FirstName = user.FirstName;
+        userToUpdate.LastName = user.LastName;
+        IdentityResult? result = await userManager.UpdateAsync(userToUpdate);
+        if(result.Succeeded)
+        {
+            return Results.Ok("User successfully updated.");
+        }
+        else{
+            return Results.Problem("Unable to update specified user.");
+        }
+    }
+
+    private static async Task<IResult> DeleteUser([FromRoute] string email, HttpContext context, UserManager<ApplicationUser> userManager)
+    {
+        email.Dump();
+        ApplicationUser userToDelete = await userManager.FindByEmailAsync(email);
+        userToDelete.Dump();
+        if(userToDelete is null) return Results.NotFound();
+        IdentityResult? result = await userManager.DeleteAsync(userToDelete);  
+        if(result.Succeeded)
+        {
+            return Results.Ok("User successfully deleted.");
+        }
+        else{
+            return Results.Problem("Unable to delete specified user.");
+        }
     }
 
     public static async Task<IResult> RegisterUser(RegisterUserModel registerUserModel,
@@ -44,7 +85,6 @@ public static class AuthEndpoints
         };
 
         IdentityResult? result = await userManager.CreateAsync(user, registerUserModel.Password);
-        result.Dump();
 
         if (result.Succeeded)
         {
@@ -72,13 +112,8 @@ public static class AuthEndpoints
         }
 
     }
-    public static async Task<IResult> GetToken([FromBody] dynamic credentials,
-        UserManager<ApplicationUser> userManager,
-        CancellationToken cancellationToken)
+    public static async Task<IResult> GetToken([FromQuery(Name = "email")] string email, [FromQuery(Name = "password")] string password, UserManager<ApplicationUser> userManager, CancellationToken cancellationToken)
     {
-        string email = credentials.GetProperty("email").GetString();
-        string password = credentials.GetProperty("password").GetString();
-
         var user = await userManager.FindByNameAsync(email);
         if (user is not null && await userManager.CheckPasswordAsync(user, password))
         {
@@ -109,5 +144,4 @@ public static class AuthEndpoints
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
 }

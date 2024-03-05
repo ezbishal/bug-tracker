@@ -15,38 +15,42 @@ const Register: React.FC = () => {
       .value;
 
     axios
-      .post(`${baseUrl}/user/register`, {
+      .post(`${baseUrl}/users/register`, {
         firstName,
         lastName,
         email,
         password,
       })
-      .then((response) => { alert(response.data); window.location.href = "/login"; });
+      .then((response) => {
+        window.location.href = "/login";
+      });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="border flex flex-col h-screen justify-center items-center gap-5">
-        <div className="flex gap-3">
-          <label htmlFor="firstName">First Name:</label>
-          <input id="firstName" type="text" className="border p-1" />
+      <div className="flex items-center justify-center h-screen">
+        <div className="border-2 rounded-md p-3 flex flex-col w-fit gap-5 m-auto">
+          <div>
+            <label htmlFor="firstName" className="mr-5">First Name:</label>
+            <input id="firstName" type="text" className="border mr-5" />
+          </div>
+          <div>
+            <label htmlFor="lastName" className="mr-5">Last Name:</label>
+            <input id="lastName" type="text" className="border p-1" />
+          </div>
+          <div>
+            <label htmlFor="email" className="mr-5">Email:</label>
+            <input id="email" type="email" className="border p-1" />
+          </div>
+          <div>
+            <label htmlFor="password" className="mr-5">Password:</label>
+            <input id="password" type="password" className="border p-1" />
+          </div>
+          <button type="submit" className="border p-1 bg-black text-white">
+            Register
+          </button>
         </div>
-        <div className="flex gap-3">
-          <label htmlFor="lastName">Last Name:</label>
-          <input id="lastName" type="text" className="border p-1" />
         </div>
-        <div className="flex gap-3">
-          <label htmlFor="email">Email:</label>
-          <input id="email" type="email" className="border p-1" />
-        </div>
-        <div className="flex gap-3">
-          <label htmlFor="password">Password:</label>
-          <input id="password" type="password" className="border p-1" />
-        </div>
-        <button type="submit" className="border p-1 bg-black text-white">
-          Register
-        </button>
-      </div>
     </form>
   );
 };

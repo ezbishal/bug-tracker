@@ -16,7 +16,7 @@ public static class Registry
 	{
 		builder.ConfigureIdentity();
 		builder.ConfigureAuthentication();
-		
+
 		builder.Services.AddAntiforgery();
 
 		builder.Services.AddProblemDetails();
@@ -27,12 +27,15 @@ public static class Registry
 
 		});
 
-		builder.Services.AddCors(c => {
-			c.AddPolicy("AllowOrigins", builder => {
-				builder.AllowAnyHeader()
-						.AllowAnyMethod()
-						.AllowAnyOrigin();
-			});
+		builder.Services.AddCors(options =>
+		{
+			options.AddPolicy("AllowOrigins",
+				builder =>
+				{
+					builder.WithOrigins("http://localhost:3000")
+						   .AllowAnyHeader()
+						   .AllowAnyMethod();
+				});
 		});
 
 		builder.Services.AddEndpointsApiExplorer();

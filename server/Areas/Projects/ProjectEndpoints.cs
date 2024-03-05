@@ -29,11 +29,30 @@ public static class ProjectEndpoints
 			.WithName(nameof(UpdateProject))
 			.WithOpenApi();
 
+		group.MapDelete("/{id}", DeleteProject)
+			.WithName(nameof(DeleteProject))
+			.WithOpenApi();
 
 		return app;
 	}
-	
-	private static async Task<IResult> UpdateProject(int id, ProjectModel project, ApplicationDbContext dbContext)
+
+    private static async Task<IResult> DeleteProject(int id, ApplicationDbContext dbContext, HttpContext context)
+    {
+		try{
+			ProjectModel projectToDelete = await dbContext.Projects.SingleAsync(p => p.Id == id); 
+			dbContext.Projects.Remove(projectToDelete);
+			dbContext.SaveChanges();
+
+			return Results.Ok("Project successfully removed");
+		}	
+		catch (Exception ex)
+		{
+			Log.Error(ex.Message);
+			throw new Exception(ex.Message);
+		}
+    }
+
+    private static async Task<IResult> UpdateProject(int id, ProjectModel project, ApplicationDbContext dbContext)
 	{
 		try
 		{
@@ -72,18 +91,16 @@ public static class ProjectEndpoints
 
 	private static async Task<IResult> GetAllProjects(ApplicationDbContext dbContext)
 	{
-		// try
-		// {
-		// 	IEnumerable<ProjectModel> projects = await dbContext.Projects.ToListAsync();
-		// 	return Results.Ok(projects);
-		// }
-		// catch (Exception ex)
-		// {
-		// 	Log.Error(ex.Message);
-		// 	throw new Exception(ex.Message);
-		// }
-
-		return Results.Ok(AutoFaker.Generate<ProjectModel>(5));
+		try
+		{
+			IEnumerable<ProjectModel> projects = await dbContext.Projects.ToListAsync();
+			return Results.Ok(projects);
+		}
+		catch (Exception ex)
+		{
+			Log.Error(ex.Message);
+			throw new Exception(ex.Message);
+		}
 
 	}
 
@@ -91,10 +108,7 @@ public static class ProjectEndpoints
 	{
 		try
 		{
-			// ProjectModel project = await dbContext.Projects.SingleAsync(p => p.Id == id);
-			// return Results.Ok(project);
-			var project = AutoFaker.Generate<ProjectModel>(1).First();
-			project.Id = id; 
+			ProjectModel project = await dbContext.Projects.SingleAsync(p => p.Id == id);
 			return Results.Ok(project);
 		}
 		catch (Exception ex)
