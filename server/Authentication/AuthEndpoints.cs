@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Web.Http;
 using Dumpify;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,8 @@ public static class AuthEndpoints
 
         group.MapGet("", GetAllUsers)
             .WithName(nameof(GetAllUsers))
-            .WithOpenApi();
+            .WithOpenApi()
+            .RequireAuthorization(builder => builder.RequireRole(RolesEnum.Admin.ToString()));
         
 
         group.MapPost("/register", RegisterUser)
@@ -30,12 +32,13 @@ public static class AuthEndpoints
         
         group.MapPut("/{email}", UpdateUser)
             .WithName(nameof(UpdateUser))
-            .WithOpenApi();
+            .WithOpenApi()
+            .RequireAuthorization(builder => builder.RequireRole(RolesEnum.Admin.ToString()));
 
         group.MapDelete("/{email}", DeleteUser)
             .WithName(nameof(DeleteUser))
-            .WithOpenApi();
-
+            .WithOpenApi()
+            .RequireAuthorization(builder => builder.RequireRole(RolesEnum.Admin.ToString()));
 
         return app;
     }
@@ -115,15 +118,16 @@ public static class AuthEndpoints
     public static async Task<IResult> GetToken([FromQuery(Name = "email")] string email, [FromQuery(Name = "password")] string password, UserManager<ApplicationUser> userManager, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByNameAsync(email);
+        var roles = await userManager.GetRolesAsync(user);
         if (user is not null && await userManager.CheckPasswordAsync(user, password))
         {
-            var token = GenerateJwtToken(user);
+            var token = GenerateJwtToken(user, roles);
             return Results.Ok(token);
         }
 
         return Results.Unauthorized();
     }
-    public static string GenerateJwtToken(ApplicationUser user)
+    public static string GenerateJwtToken(ApplicationUser user, IList<string> roles)
     {
         var claims = new List<Claim>
         {
@@ -131,6 +135,10 @@ public static class AuthEndpoints
             new(JwtRegisteredClaimNames.FamilyName, user.LastName),
             new(JwtRegisteredClaimNames.Email, user.Email)
         };
+        foreach(var role in roles)
+        {
+            claims.Add(new(ClaimTypes.Role, role));
+        }
 
        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt"));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

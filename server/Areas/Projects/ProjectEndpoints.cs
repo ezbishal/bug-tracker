@@ -1,4 +1,3 @@
-using AutoBogus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -15,44 +14,50 @@ public static class ProjectEndpoints
 
 		group.MapGet("", GetAllProjects)
 			.WithName(nameof(GetAllProjects))
-			.WithOpenApi();
+			.WithOpenApi()
+			.RequireAuthorization();
 
 		group.MapGet("/{id}", GetProjectById)
 			.WithName(nameof(GetProjectById))
-			.WithOpenApi();
+			.WithOpenApi()
+			.RequireAuthorization();
 
 		group.MapPost("", CreateProject)
 			.WithName(nameof(CreateProject))
-			.WithOpenApi();
+			.WithOpenApi()
+			.RequireAuthorization();
 
 		group.MapPut("/{id}", UpdateProject)
 			.WithName(nameof(UpdateProject))
-			.WithOpenApi();
+			.WithOpenApi()
+			.RequireAuthorization();
 
 		group.MapDelete("/{id}", DeleteProject)
 			.WithName(nameof(DeleteProject))
-			.WithOpenApi();
+			.WithOpenApi()
+			.RequireAuthorization();
 
 		return app;
 	}
 
-    private static async Task<IResult> DeleteProject(int id, ApplicationDbContext dbContext, HttpContext context)
-    {
-		try{
-			ProjectModel projectToDelete = await dbContext.Projects.SingleAsync(p => p.Id == id); 
+	private static async Task<IResult> DeleteProject(int id, ApplicationDbContext dbContext, HttpContext context)
+	{
+		try
+		{
+			ProjectModel projectToDelete = await dbContext.Projects.SingleAsync(p => p.Id == id);
 			dbContext.Projects.Remove(projectToDelete);
 			dbContext.SaveChanges();
 
 			return Results.Ok("Project successfully removed");
-		}	
+		}
 		catch (Exception ex)
 		{
 			Log.Error(ex.Message);
-			throw new Exception(ex.Message);
+			return Results.Problem(ex.Message);
 		}
-    }
+	}
 
-    private static async Task<IResult> UpdateProject(int id, ProjectModel project, ApplicationDbContext dbContext)
+	private static async Task<IResult> UpdateProject(int id, ProjectModel project, ApplicationDbContext dbContext)
 	{
 		try
 		{
@@ -65,7 +70,7 @@ public static class ProjectEndpoints
 		catch (Exception ex)
 		{
 			Log.Error(ex.Message);
-			throw new Exception(ex.Message);
+			return Results.Problem(ex.Message);
 		}
 
 	}
@@ -85,7 +90,7 @@ public static class ProjectEndpoints
 		catch (Exception ex)
 		{
 			Log.Error(ex.Message);
-			throw new Exception(ex.Message);
+			return Results.Problem(ex.Message);
 		}
 	}
 
@@ -99,7 +104,7 @@ public static class ProjectEndpoints
 		catch (Exception ex)
 		{
 			Log.Error(ex.Message);
-			throw new Exception(ex.Message);
+			return Results.Problem(ex.Message);
 		}
 
 	}
@@ -114,7 +119,7 @@ public static class ProjectEndpoints
 		catch (Exception ex)
 		{
 			Log.Error(ex.Message);
-			throw new Exception(ex.Message);
+			return Results.Problem(ex.Message);
 		}
 	}
 }

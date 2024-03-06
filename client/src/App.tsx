@@ -6,6 +6,7 @@ import Login from './Components/Login';
 import { AuthProvider } from './Services/AuthProvider';
 import ProjectDetails from './Components/ProjectDetails';
 import Register from './Components/Register';
+import axios from 'axios';
 
 const setSession = (userToken: string): void => {
   sessionStorage.setItem('token', userToken);
@@ -15,6 +16,9 @@ const getSession = (): string => {
   const token: string | null = sessionStorage.getItem('token');
   return token ?? '';
 }
+
+const token = sessionStorage.getItem("token") ?? '';
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 const App: FC = () => {
 
