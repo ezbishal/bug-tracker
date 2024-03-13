@@ -7,6 +7,10 @@ import { AuthProvider } from './Services/AuthProvider';
 import ProjectDetails from './Components/ProjectDetails';
 import Register from './Components/Register';
 import axios from 'axios';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 const setSession = (userToken: string): void => {
   sessionStorage.setItem('token', userToken);

@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import ProjectModel from "../Models/ProjectModel";
+import { DefaultButton } from "@fluentui/react";
 
 const Projects: FC = () => {
   const baseUrl: string = "https://localhost:7109/api";
@@ -58,8 +59,8 @@ const Projects: FC = () => {
           </div>
         ))}
       </div>
-      <button onClick={handleSave}>Save</button>
-      <button onClick={handleDelete}>Delete</button>
+      <DefaultButton onClick={handleSave}>Save</DefaultButton>
+      <DefaultButton onClick={handleDelete}>Delete</DefaultButton>
     </>
   );
 };

@@ -1,12 +1,9 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Server.Authentication;
 using Server.Data;
 using Server.Exceptions;
-using System.Text;
 
 namespace Server;
 
@@ -15,7 +12,6 @@ public static class Registry
 	public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
 	{
 		builder.ConfigureIdentity();
-		builder.ConfigureAuthentication();
 
 		builder.Services.AddAntiforgery();
 
@@ -47,25 +43,6 @@ public static class Registry
 		builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 
 		builder.Services.AddCors();
-
-		return builder;
-	}
-
-	public static WebApplicationBuilder ConfigureAuthentication(this WebApplicationBuilder builder)
-	{
-		builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-			.AddJwtBearer(options =>
-			{
-				options.RequireHttpsMetadata = false;
-				options.SaveToken = true;
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt")),
-					ValidateIssuer = false,
-					ValidateAudience = false,
-				};
-			});
 
 		return builder;
 	}

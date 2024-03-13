@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Server.Authentication;
 using Server.Data;
 using Server.Models;
 
@@ -10,7 +11,9 @@ public static class ProjectEndpoints
 {
 	public static IEndpointRouteBuilder MapProjectEndpoints(this IEndpointRouteBuilder app)
 	{
-		RouteGroupBuilder group = app.MapGroup("/api/projects").WithTags("Project");
+		RouteGroupBuilder group = app.MapGroup("/api/projects")
+			.WithTags("Project")
+			.AddEndpointFilter<ApiKeyAuthenticationFilter>();
 
 		group.MapGet("", GetAllProjects)
 			.WithName(nameof(GetAllProjects))

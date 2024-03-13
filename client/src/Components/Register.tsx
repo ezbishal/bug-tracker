@@ -1,3 +1,4 @@
+import { DefaultButton, Label, TextField } from "@fluentui/react";
 import axios from "axios";
 import React from "react";
 
@@ -31,24 +32,24 @@ const Register: React.FC = () => {
       <div className="flex items-center justify-center h-screen">
         <div className="border-2 rounded-md p-3 flex flex-col w-fit gap-5 m-auto">
           <div>
-            <label htmlFor="firstName" className="mr-5">First Name:</label>
-            <input id="firstName" type="text" className="border mr-5" />
+            <Label htmlFor="firstName" className="mr-5">First Name:</Label>
+            <TextField id="firstName" type="text" className="border mr-5" />
           </div>
           <div>
-            <label htmlFor="lastName" className="mr-5">Last Name:</label>
-            <input id="lastName" type="text" className="border p-1" />
+            <Label htmlFor="lastName" className="mr-5">Last Name:</Label>
+            <TextField id="lastName" type="text" className="border p-1" />
           </div>
           <div>
-            <label htmlFor="email" className="mr-5">Email:</label>
-            <input id="email" type="email" className="border p-1" />
+            <Label htmlFor="email" className="mr-5">Email:</Label>
+            <TextField id="email" type="email" className="border p-1" />
           </div>
           <div>
-            <label htmlFor="password" className="mr-5">Password:</label>
-            <input id="password" type="password" className="border p-1" />
+            <Label htmlFor="password" className="mr-5">Password:</Label>
+            <TextField id="password" type="password" className="border p-1" />
           </div>
-          <button type="submit" className="border p-1 bg-black text-white">
+          <DefaultButton type="submit">
             Register
-          </button>
+          </DefaultButton>
         </div>
         </div>
     </form>

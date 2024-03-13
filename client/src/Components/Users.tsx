@@ -1,7 +1,8 @@
-import { memo, useEffect, useState } from "react";
+import { FormEvent, memo, useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import React from "react";
 import UserSession from "../Models/UserSession";
+import { ComboBox, DefaultButton, IComboBox, IComboBoxOption, Label, TextField } from "@fluentui/react";
 
 
 const Users = () => {
@@ -22,10 +23,11 @@ const Users = () => {
   }, []);
 
   const handleSelectionChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: FormEvent<IComboBox>,
+    option: IComboBoxOption | undefined
   ) => {
     const user = users.find(
-      (user: UserSession) => user.email === event.target.value
+      (user: UserSession) => user.email === option?.key as string
     );
     if (user) {
       setSelectedUser(user);
@@ -63,26 +65,27 @@ const Users = () => {
   return (
     <div className="flex flex-col gap-5 m-5">
       <h3 className="text-[20px]">Users</h3>
-        <label htmlFor="users">Select User:</label>
-        <select id="users" className="border" onChange={handleSelectionChange}>
+        <Label htmlFor="users">Select User:</Label>
+        <ComboBox id="users" className="border h-[40px]" 
+          onChange={handleSelectionChange} options={[]}>
           {users.map((user: UserSession) => (
             <option value={user.email}>
               {user.firstName} {user.lastName}
             </option>
           ))}
-        </select>
+        </ComboBox>
 
-        <label htmlFor="firstName">First Name:</label>
-        <input id="firstName" className="border" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-        <label htmlFor="lastName">Last Name:</label>
-        <input id="lastName" className="border" type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-        <button className="border" onClick={handleSave}>
+        <Label htmlFor="firstName">First Name:</Label>
+        <TextField id="firstName" className="border" type="text" value={firstName} onChange={(e) => setFirstName((e.target as HTMLInputElement).value)} />
+        <Label htmlFor="lastName">Last Name:</Label>
+        <TextField id="lastName" className="border" type="text" value={lastName} onChange={(e) => setLastName((e.target as HTMLInputElement).value)} />
+        <DefaultButton onClick={handleSave}>
           Save
-        </button>
+        </DefaultButton>
 
-        <button className="border" onClick={handleDelete}>
+        <DefaultButton color="error" onClick={handleDelete}>
           Delete
-        </button>
+        </DefaultButton>
     </div>
   );
 };

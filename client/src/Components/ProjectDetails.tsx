@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProjectModel from "../Models/ProjectModel";
+import { ComboBox, DatePicker, Label, TextField } from "@fluentui/react";
 
 const ProjectDetails: FC = () => {
     const baseUrl: string = "https://localhost:7109/api"
@@ -17,45 +18,45 @@ const ProjectDetails: FC = () => {
        } catch(error) {
         alert(`Failed to fetch project: ${error}`);
        }
-    }, []);
+    }, [projectId]);
 
     return (
         <>
         <div className="flex flex-col gap-5 m-5 w-1/6">
 
-            <input placeholder="projectName" id="name" type="text" 
+            <TextField placeholder="projectName" id="name"
                 className="text-lg"
                 value={project?.name} 
-                onChange={(e) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, name: e.target.value } : prevState )) } />
+                onChange={(e, v) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, name: v as string} : prevState )) } />
 
-            <label htmlFor="description">Description:</label>
-            <input id="description" type="text" 
+            <Label htmlFor="description">Description:</Label>
+            <TextField id="description"
                 className="border p-1"
                 value={project?.description} 
-                onChange={(e) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, description: e.target.value } : prevState )) } />
+                onChange={(e, v) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, description: v as string } : prevState )) } />
 
-            <label htmlFor="author">Author:</label>
-            <select id="author">
+            <Label htmlFor="author">Author:</Label>
+            <ComboBox id="author" options={[]}>
                <option value={project?.authorId}>{project?.authorId}</option>   
-            </select>
+            </ComboBox>
 
-            <label htmlFor="startDate">Start Date:</label>
-            <input id="startDate" type="date" 
+            <Label htmlFor="startDate">Start Date:</Label>
+            <DatePicker id="startDate" 
                 className="border p-1"
-                value={project?.startDate.toString()} 
-                onChange={(e) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, startDate: new Date(e.target.value)} : prevState))} />
+                placeholder={project?.startDate.toString()}
+                onChange={(d) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, startDate: new Date(d as unknown as Date)} : prevState))} />
 
-            <label htmlFor="endDate">End Date:</label>
-            <input id="endDate" type="date" 
+            <Label htmlFor="endDate">End Date:</Label>
+            <DatePicker id="endDate" 
                 className="border p-1"
-                value={project?.startDate.toString()} 
-                onChange={(e) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, endDate: new Date(e.target.value)} : prevState))} />
+                placeholder={project?.startDate.toString()} 
+                onChange={(d) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, endDate: new Date(d as unknown as Date)} : prevState))} />
 
-            <label htmlFor="repository">Repository:</label>
-            <input id="repository" type="text" 
+            <Label htmlFor="repository">Repository:</Label>
+            <TextField id="repository"
                 className="border p-1"
                 value={project?.name} 
-                onChange={(e) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, repositoryLink: e.target.value } : prevState )) } />
+                onChange={(s) => setProject((prevState: ProjectModel | undefined) => (prevState ? { ...prevState, repositoryLink: s as unknown as string } : prevState )) } />
         </div>
         </>
     );

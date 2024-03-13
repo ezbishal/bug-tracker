@@ -26,8 +26,8 @@ public static class AuthEndpoints
             .WithName(nameof(RegisterUser))
             .WithOpenApi();
 
-        group.MapGet("/token", GetToken)
-            .WithName(nameof(GetToken))
+        group.MapGet("/token", GetApiKey)
+            .WithName(nameof(GetApiKey))
             .WithOpenApi();
         
         group.MapPut("/{email}", UpdateUser)
@@ -115,41 +115,15 @@ public static class AuthEndpoints
         }
 
     }
-    public static async Task<IResult> GetToken([FromQuery(Name = "email")] string email, [FromQuery(Name = "password")] string password, UserManager<ApplicationUser> userManager, CancellationToken cancellationToken)
+    public static async Task<IResult> GetApiKey([FromQuery(Name = "email")] string email, [FromQuery(Name = "password")] string password, UserManager<ApplicationUser> userManager, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByNameAsync(email);
         var roles = await userManager.GetRolesAsync(user);
         if (user is not null && await userManager.CheckPasswordAsync(user, password))
         {
-            var token = GenerateJwtToken(user, roles);
-            return Results.Ok(token);
+            return Results.Ok(Guid.NewGuid().ToString());
         }
 
         return Results.Unauthorized();
-    }
-    public static string GenerateJwtToken(ApplicationUser user, IList<string> roles)
-    {
-        var claims = new List<Claim>
-        {
-            new(JwtRegisteredClaimNames.Name, user.FirstName),
-            new(JwtRegisteredClaimNames.FamilyName, user.LastName),
-            new(JwtRegisteredClaimNames.Email, user.Email)
-        };
-        foreach(var role in roles)
-        {
-            claims.Add(new(ClaimTypes.Role, role));
-        }
-
-       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecretSoDoNotTellAnyoneAboutIt"));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var token = new JwtSecurityToken(
-            issuer: "MyIssuer",
-            audience: "MyAudience",
-            claims: claims,
-            expires: DateTime.Now.AddDays(5),
-            signingCredentials: creds);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
