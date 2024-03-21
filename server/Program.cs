@@ -1,3 +1,4 @@
+global using Dumpify;
 using System.Reflection;
 using Server;
 using Server.Areas.Projects;
@@ -37,6 +38,7 @@ app.UseAuthorization();
 
 app.MapProjectEndpoints();
 app.MapAuthEndpoints();
+app.MapFallbackToFile("index.html");
 
 await app.SeedRoles();
 
