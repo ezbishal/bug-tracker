@@ -10,13 +10,14 @@ public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<
     public DbSet<ProjectModel> Projects { get; set; }
     public DbSet<BugModel> Bugs { get; set; }
     public DbSet<CommentModel> Comments { get; set; }
+    public DbSet<ApiKeyModel> ApiKeys { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<BugModel>().ToTable("bug");
-        modelBuilder.Entity<ProjectModel>().ToTable("project");
-        modelBuilder.Entity<CommentModel>().ToTable("comment");
-        base.OnModelCreating(modelBuilder);
+        builder.Entity<BugModel>().ToTable("bug");
+        builder.Entity<ProjectModel>().ToTable("project");
+        builder.Entity<CommentModel>().ToTable("comment");
+        base.OnModelCreating(builder);
 
     }
 }
